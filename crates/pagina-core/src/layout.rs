@@ -119,6 +119,9 @@ struct LayoutState<'a> {
     footnote_area_height: f64,
 
     images: Vec<LoadedImage>,
+
+    /// Map from element ID to the page number (1-indexed) where it was laid out.
+    id_to_page: HashMap<String, usize>,
 }
 
 struct FootnoteData {
@@ -143,6 +146,7 @@ impl<'a> LayoutState<'a> {
             footnote_counter: 0,
             footnote_area_height: 0.0,
             images: Vec::new(),
+            id_to_page: HashMap::new(),
         }
     }
 
@@ -212,13 +216,47 @@ impl<'a> LayoutState<'a> {
         self.footnote_area_height = 0.0;
     }
 
+    /// Replace `__TARGET_PAGE:id__` placeholders with actual page numbers.
+    fn resolve_target_counters(&mut self) {
+        let id_map = &self.id_to_page;
+        for page in &mut self.pages {
+            for item in page.items.iter_mut().chain(page.footnotes.iter_mut()) {
+                if item.text.contains("__TARGET_PAGE:") {
+                    let mut resolved = item.text.clone();
+                    // Find all __TARGET_PAGE:xxx__ placeholders
+                    while let Some(start) = resolved.find("__TARGET_PAGE:") {
+                        let rest = &resolved[start + 14..];
+                        if let Some(end) = rest.find("__") {
+                            let id = &rest[..end];
+                            let page_num = id_map.get(id).copied().unwrap_or(0);
+                            let replacement = if page_num > 0 {
+                                page_num.to_string()
+                            } else {
+                                "?".to_string()
+                            };
+                            resolved = format!(
+                                "{}{}{}",
+                                &resolved[..start],
+                                replacement,
+                                &rest[end + 2..]
+                            );
+                        } else {
+                            break;
+                        }
+                    }
+                    item.text = resolved;
+                }
+            }
+        }
+    }
+
     fn resolve_margin_boxes(&mut self) {
         let total_pages = self.pages.len();
         for page_num in 0..total_pages {
             let page_style = self.page_styles.for_page(page_num + 1, total_pages);
             let mut boxes = Vec::new();
             for (pos, mb) in &page_style.margin_boxes {
-                let text = resolve_content(&mb.content, page_num + 1, total_pages, &self.running_strings);
+                let text = resolve_content(&mb.content, page_num + 1, total_pages, &self.running_strings, &self.id_to_page);
                 if !text.is_empty() {
                     boxes.push(ResolvedMarginBox {
                         position: *pos,
@@ -244,6 +282,7 @@ fn resolve_content(
     page_num: usize,
     total_pages: usize,
     running_strings: &HashMap<String, String>,
+    id_to_page: &HashMap<String, usize>,
 ) -> String {
     let mut out = String::new();
     for item in items {
@@ -258,6 +297,14 @@ fn resolve_content(
                 if let Some(val) = running_strings.get(name) {
                     out.push_str(val);
                 }
+            }
+            ContentItem::TargetCounter(attr_name, counter_name) => {
+                // target-counter(attr(href), page) → look up the page of the target element
+                // attr_name is "href", counter_name is "page"
+                // The actual href value needs to be resolved from the element context.
+                // In margin boxes this isn't used; it's used in inline content (::after).
+                // For now, skip in margin box context.
+                let _ = (attr_name, counter_name);
             }
             _ => {}
         }
@@ -324,6 +371,39 @@ fn collect_styled_words(
                     let resolved = fm.resolve(&ref_style.font_family, ref_style.font_weight, ref_style.font_style);
                     let width = fm.metrics(&resolved).text_width_mm(&ref_text, ref_style.font_size_pt);
                     words.push(StyledWord { text: ref_text, style: ref_style, width_mm: width });
+                } else if let Some(content_items) = &child_node.style.content {
+                    // Element with CSS `content` property (e.g. TOC link with target-counter)
+                    let style = InlineStyle::from_computed(&child_node.style);
+
+                    // First, render the element's own inline children
+                    collect_styled_words(child_node, fm, words, footnotes, footnote_counter);
+
+                    // Then append generated content
+                    for ci in content_items {
+                        let text = match ci {
+                            ContentItem::String(s) => s.clone(),
+                            ContentItem::Counter(name) => format!("__COUNTER:{name}__"),
+                            ContentItem::TargetCounter(_attr, _counter) => {
+                                // Look up href attribute on this element
+                                let href = child_node.attrs.iter()
+                                    .find(|(k, _)| k == "href")
+                                    .map(|(_, v)| v.as_str())
+                                    .unwrap_or("");
+                                let target_id = href.strip_prefix('#').unwrap_or(href);
+                                if !target_id.is_empty() {
+                                    format!("__TARGET_PAGE:{target_id}__")
+                                } else {
+                                    "?".to_string()
+                                }
+                            }
+                            _ => String::new(),
+                        };
+                        if !text.is_empty() {
+                            let resolved = fm.resolve(&style.font_family, style.font_weight, style.font_style);
+                            let width = fm.metrics(&resolved).text_width_mm(&text, style.font_size_pt);
+                            words.push(StyledWord { text, style: style.clone(), width_mm: width });
+                        }
+                    }
                 } else {
                     // Recurse into inline children (strong, em, a, span, etc.)
                     collect_styled_words(child_node, fm, words, footnotes, footnote_counter);
@@ -453,6 +533,7 @@ pub fn lay_out(page_styles: &PageStyleSet, tree: &StyledNode, fm: &FontManager) 
     let mut state = LayoutState::new(page_styles.clone(), fm);
     lay_out_node(tree, &mut state, true);
     state.flush_footnotes();
+    state.resolve_target_counters();
     state.resolve_margin_boxes();
 
     while state.pages.len() > 1
@@ -481,6 +562,11 @@ fn lay_out_node(node: &StyledNode, state: &mut LayoutState, is_first_block: bool
     // Handle break-before
     if node.style.break_before == BreakValue::Page && !is_first_block && state.current_y > 0.0 {
         state.new_page();
+    }
+
+    // Record element ID → current page number (after break-before)
+    if let Some(id) = &node.id {
+        state.id_to_page.insert(id.clone(), state.pages.len());
     }
 
     match node.tag.as_str() {

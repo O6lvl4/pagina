@@ -29,6 +29,8 @@ pub struct ComputedStyle {
     // CSS Paged Media
     pub string_set: Option<(String, StringSetSource)>,
     pub is_footnote: bool,
+    /// CSS `content` property for generated content (e.g. target-counter in TOC links).
+    pub content: Option<Vec<ContentItem>>,
 }
 
 #[derive(Debug, Clone)]
@@ -58,6 +60,7 @@ impl Default for ComputedStyle {
             border_bottom_color: Color::BLACK,
             string_set: None,
             is_footnote: false,
+            content: None,
         }
     }
 }
@@ -437,6 +440,12 @@ fn apply_declarations(style: &mut ComputedStyle, decls: &[Declaration]) {
             "float" => {
                 if decl.value.trim() == "footnote" {
                     style.is_footnote = true;
+                }
+            }
+            "content" => {
+                let items = parser::parse_content_value(&decl.value);
+                if !items.is_empty() {
+                    style.content = Some(items);
                 }
             }
             "border-bottom" => {
