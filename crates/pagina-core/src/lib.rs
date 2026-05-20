@@ -44,6 +44,9 @@ pub fn convert_with_options(html: &str, opts: &ConvertOptions) -> Vec<u8> {
     let styled_tree = style::build_styled_tree(&effective_dom.document, &rules)
         .expect("failed to build styled tree");
 
+    // Pre-cache glyph widths for all characters in the document
+    fm.cache_document_chars(html);
+
     let (pages, images) = layout::lay_out(&page_styles, &styled_tree, &fm);
     let mut pdf_bytes = pdf::render(&page_styles.base, &pages, &images, &mut fm);
 
