@@ -109,12 +109,11 @@ fn lay_out_block(node: &StyledNode, state: &mut LayoutState) {
 
     state.current_y += style.margin_top_mm + style.padding_top_mm;
 
-    // Heading orphan control: if this is a heading, ensure at least
-    // the heading + 2 body lines fit on the current page
-    if matches!(node.tag.as_str(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+    // Heading orphan control: keep heading + at least 1 body line together
+    if matches!(node.tag.as_str(), "h3" | "h4" | "h5" | "h6") {
         let heading_lh = style.font_size_pt * style.line_height * 25.4 / 72.0;
-        let body_lh = 11.0 * 1.8 * 25.4 / 72.0; // estimate: 11pt body at 1.8 line-height
-        let min_needed = heading_lh + body_lh * 2.0 + style.margin_bottom_mm;
+        let body_lh = 11.0 * 1.4 * 25.4 / 72.0;
+        let min_needed = heading_lh + body_lh + style.margin_bottom_mm;
         if state.available_height() < min_needed && state.current_page_has_items() {
             state.new_page();
         }
