@@ -309,11 +309,6 @@ fn default_contract_css() -> &'static str {
 @page {
     size: A4;
     margin: 25mm 20mm 30mm 20mm;
-    @top-right {
-        content: counter(page) " / " counter(pages);
-        font-size: 8pt;
-        color: #999;
-    }
 }
 @page :first {
     @top-center { content: none; }
