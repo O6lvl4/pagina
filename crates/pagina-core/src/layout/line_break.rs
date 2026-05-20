@@ -55,21 +55,43 @@ impl<'a> WordCollector<'a> {
         let resolved = self.fm.resolve(&style.font_family, style.font_weight, style.font_style);
         let metrics = self.fm.metrics(&resolved);
 
-        // Split into segments: spaces, CJK runs (char-by-char), and Latin words
+        // Split into segments: spaces, CJK runs (char-by-char with kinsoku), Latin words
         let mut current_word = String::new();
-        for ch in text.chars() {
+        let chars: Vec<char> = text.chars().collect();
+        let mut i = 0;
+        while i < chars.len() {
+            let ch = chars[i];
             if ch == ' ' {
                 self.flush_word(&mut current_word, &style, metrics);
                 let sw = metrics.space_width_mm(style.font_size_pt);
                 self.words.push(StyledWord { text: " ".to_string(), style: style.clone(), width_mm: sw });
             } else if is_cjk(ch) {
                 self.flush_word(&mut current_word, &style, metrics);
-                // Each CJK character is a breakable unit
-                let w = metrics.text_width_mm(&ch.to_string(), style.font_size_pt);
-                self.words.push(StyledWord { text: ch.to_string(), style: style.clone(), width_mm: w });
+
+                // Build a CJK chunk: current char + any following kinsoku no-break-before chars
+                let mut chunk = String::new();
+                chunk.push(ch);
+                // Absorb following chars that must not start a line (closing brackets, punctuation)
+                while i + 1 < chars.len() && is_no_break_before(chars[i + 1]) {
+                    i += 1;
+                    chunk.push(chars[i]);
+                }
+
+                let w = metrics.text_width_mm(&chunk, style.font_size_pt);
+                self.words.push(StyledWord { text: chunk, style: style.clone(), width_mm: w });
+            } else if is_no_break_before(ch) {
+                // ASCII closing bracket etc. at CJK boundary — attach to previous word
+                if let Some(last) = self.words.last_mut() {
+                    let w = metrics.text_width_mm(&ch.to_string(), style.font_size_pt);
+                    last.text.push(ch);
+                    last.width_mm += w;
+                } else {
+                    current_word.push(ch);
+                }
             } else {
                 current_word.push(ch);
             }
+            i += 1;
         }
         self.flush_word(&mut current_word, &style, metrics);
     }
@@ -278,6 +300,17 @@ pub(super) fn emit_line_segments(segments: &[LineSegment], y: f64, x_offset: f64
             seg.x_mm + x_offset, y, seg.text.clone(), &seg.style,
         ));
     }
+}
+
+/// Characters that must not appear at the start of a line (行頭禁則).
+fn is_no_break_before(ch: char) -> bool {
+    matches!(ch,
+        ')' | ']' | '}' | '>' |
+        '）' | '」' | '』' | '】' | '〉' | '》' | '〕' | '｝' | '］' |
+        '。' | '、' | '，' | '．' | '！' | '？' | '：' | '；' |
+        'ー' | '…' | '‥' |
+        '!' | '?' | ',' | '.' | ':' | ';'
+    )
 }
 
 /// Detect CJK characters that allow line breaking at character boundaries.

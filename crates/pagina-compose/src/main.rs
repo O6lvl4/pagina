@@ -233,31 +233,45 @@ fn build_signature(def: &DocumentDef, sig: &SignatureDef) -> String {
     let mut parties: Vec<(&String, &Party)> = def.parties.iter().collect();
     parties.sort_by(|(a, _), (b, _)| a.cmp(b));
 
+    // Full-width spaces for alignment (consistent width with CJK font)
+    let indent = "\u{3000}\u{3000}"; // 2 full-width spaces
+
     for (role, party) in &parties {
         html.push_str("<div class=\"sig-party\">\n");
 
-        // Role line
-        html.push_str(&format!("<p class=\"sig-role-line\">{}</p>\n", role));
-
-        // Address
+        // Address line: role + 住所 + value
         if !party.address.is_empty() {
             html.push_str(&format!(
-                "<p class=\"sig-field-line\">    住所    {}</p>\n",
-                party.address
+                "<p>{}\u{3000}住所\u{3000}{}</p>\n",
+                role, party.address
             ));
+        } else {
+            html.push_str(&format!("<p>{}</p>\n", role));
         }
 
-        // Name + seal
-        let seal_mark = if sig.style == "seal" { "    印" } else { "" };
-        html.push_str(&format!(
-            "<p class=\"sig-field-line\">    氏名    {}{}</p>\n",
-            party.name, seal_mark
-        ));
+        // Name line with seal
+        if sig.style == "seal" {
+            html.push_str(&format!(
+                "<p>{indent}氏名\u{3000}{}</p>\n",
+                party.name
+            ));
+            html.push_str(&format!(
+                "<p class=\"sig-seal\">{indent}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}\u{3000}印</p>\n"
+            ));
+        } else {
+            html.push_str(&format!(
+                "<p>{indent}氏名\u{3000}{}</p>\n",
+                party.name
+            ));
+            html.push_str(&format!(
+                "<p>{indent}\u{3000}\u{3000}\u{3000}署名 ________________________</p>\n"
+            ));
+        }
 
         // Representative
         if !party.representative.is_empty() {
             html.push_str(&format!(
-                "<p class=\"sig-field-line\">    代表者  {}</p>\n",
+                "<p>{indent}\u{3000}\u{3000}\u{3000}{}</p>\n",
                 party.representative
             ));
         }
@@ -309,10 +323,9 @@ h1 {
 
 .sig-area { break-before: page; }
 .sig-closing { margin-bottom: 12mm; }
-.sig-date { text-align: right; margin-bottom: 15mm; }
-.sig-party { margin-bottom: 14mm; }
-.sig-role-line { font-weight: bold; margin-bottom: 2mm; }
-.sig-field-line { margin-bottom: 1mm; }
+.sig-date { text-align: right; margin-bottom: 18mm; }
+.sig-party { margin-bottom: 16mm; }
+.sig-seal { color: #c00; }
 "#
 }
 
