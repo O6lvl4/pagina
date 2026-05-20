@@ -14,6 +14,12 @@ use css::PageStyleSet;
 use font::FontManager;
 use markup5ever_rcdom::RcDom;
 
+/// Write a warning message to stderr without using eprintln! macro.
+fn warn(msg: &str) {
+    use std::io::Write;
+    let _ = writeln!(std::io::stderr(), "{msg}");
+}
+
 /// Conversion options.
 #[derive(Default)]
 pub struct ConvertOptions<'a> {
@@ -48,7 +54,7 @@ pub fn convert_with_options(html: &str, opts: &ConvertOptions) -> Vec<u8> {
 fn load_custom_fonts(fm: &mut FontManager, font_paths: &[&str]) {
     for path in font_paths {
         let Ok(bytes) = std::fs::read(path) else {
-            eprintln!("warning: failed to load font {path}");
+            warn(&format!("warning: failed to load font {path}"));
             continue;
         };
         let family = std::path::Path::new(path)
@@ -57,7 +63,7 @@ fn load_custom_fonts(fm: &mut FontManager, font_paths: &[&str]) {
             .unwrap_or("CustomFont")
             .to_string();
         if !fm.load_font(bytes, &family) {
-            eprintln!("warning: failed to parse font {path}");
+            warn(&format!("warning: failed to parse font {path}"));
         }
     }
 }

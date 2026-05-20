@@ -17,8 +17,6 @@ pub fn execute_scripts(dom: &RcDom) -> Vec<String> {
     let mut context = Context::default();
     let mut writes: Vec<String> = Vec::new();
 
-    // Provide a minimal `document.write()` implementation
-    // We capture writes and return them for the caller to inject into the DOM.
     register_document_api(&mut context, &mut writes);
 
     for script in &scripts {
@@ -63,10 +61,6 @@ fn extract_element_text(handle: &Handle) -> String {
 }
 
 fn register_document_api(context: &mut Context, _writes: &mut Vec<String>) {
-    // Create a minimal `document` object with basic methods.
-    // For now we only support `document.title` as a simple string property.
-    // Full DOM manipulation would require a much more complex bridge.
-
     let script = r#"
         var document = {
             title: '',
@@ -111,52 +105,56 @@ fn parse_json_string_array(s: &str) -> Vec<String> {
     tokenize_json_strings(inner)
 }
 
-fn tokenize_json_strings(input: &str) -> Vec<String> {
-    let mut items = Vec::new();
-    let mut current = String::new();
-    let mut in_string = false;
-    let mut escape = false;
+/// State machine for JSON string tokenization.
+struct JsonTokenizer {
+    items: Vec<String>,
+    current: String,
+    in_string: bool,
+    escape: bool,
+}
 
-    for ch in input.chars() {
-        let action = classify_json_char(ch, in_string, escape);
-        match action {
-            JsonAction::Escape => { current.push(ch); escape = false; }
-            JsonAction::StartEscape => { escape = true; }
-            JsonAction::ToggleString => { in_string = !in_string; }
-            JsonAction::EndItem => { items.push(std::mem::take(&mut current)); }
-            JsonAction::Append => { current.push(ch); }
-            JsonAction::Skip => {}
+impl JsonTokenizer {
+    fn new() -> Self {
+        Self { items: Vec::new(), current: String::new(), in_string: false, escape: false }
+    }
+
+    fn feed(&mut self, ch: char) {
+        if self.escape {
+            self.current.push(ch);
+            self.escape = false;
+            return;
+        }
+        if ch == '\\' && self.in_string {
+            self.escape = true;
+            return;
+        }
+        if ch == '"' {
+            self.in_string = !self.in_string;
+            return;
+        }
+        if ch == ',' && !self.in_string {
+            self.items.push(std::mem::take(&mut self.current));
+            return;
+        }
+        if self.in_string {
+            self.current.push(ch);
         }
     }
-    if !current.is_empty() {
-        items.push(current);
+
+    fn finish(mut self) -> Vec<String> {
+        if !self.current.is_empty() {
+            self.items.push(self.current);
+        }
+        self.items
     }
-    items
 }
 
-enum JsonAction {
-    Escape,
-    StartEscape,
-    ToggleString,
-    EndItem,
-    Append,
-    Skip,
-}
-
-fn classify_json_char(ch: char, in_string: bool, escape: bool) -> JsonAction {
-    if escape {
-        return JsonAction::Escape;
+fn tokenize_json_strings(input: &str) -> Vec<String> {
+    let mut tokenizer = JsonTokenizer::new();
+    for ch in input.chars() {
+        tokenizer.feed(ch);
     }
-    if ch == '\\' && in_string {
-        return JsonAction::StartEscape;
-    }
-    if ch == '"' {
-        return JsonAction::ToggleString;
-    }
-    if ch == ',' && !in_string {
-        return JsonAction::EndItem;
-    }
-    if in_string { JsonAction::Append } else { JsonAction::Skip }
+    tokenizer.finish()
 }
 
 /// High-level: execute scripts and return generated HTML fragments.

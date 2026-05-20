@@ -62,6 +62,14 @@ impl MathStyle {
     }
 }
 
+struct CenteredTextParams<'a> {
+    container_x: f64,
+    container_w: f64,
+    text_w: f64,
+    y: f64,
+    text: &'a str,
+}
+
 struct MathContext<'a> {
     items: Vec<LayoutItem>,
     x: f64,
@@ -137,24 +145,33 @@ impl<'a> MathContext<'a> {
         let frac_x = self.x;
         let lh = style.line_height_mm();
 
-        self.emit_centered(frac_x, frac_w, num_w, y_offset - lh * 0.4, &num_text, &small_style);
-        self.items.push(LayoutItem::hr_item(frac_x, y_offset, frac_w, 0.15, style.color));
-        self.emit_centered(frac_x, frac_w, den_w, y_offset + lh * 0.45, &den_text, &small_style);
+        self.emit_centered(&CenteredTextParams {
+            container_x: frac_x, container_w: frac_w, text_w: num_w,
+            y: y_offset - lh * 0.4, text: &num_text,
+        }, &small_style);
+        self.items.push(LayoutItem::hr_item(
+            (frac_x, y_offset),
+            ItemKind::HorizontalRule { width_mm: frac_w, thickness_mm: 0.15, color: style.color },
+        ));
+        self.emit_centered(&CenteredTextParams {
+            container_x: frac_x, container_w: frac_w, text_w: den_w,
+            y: y_offset + lh * 0.45, text: &den_text,
+        }, &small_style);
 
         self.x += frac_w + 0.5;
     }
 
-    fn emit_centered(&mut self, container_x: f64, container_w: f64, text_w: f64, y: f64, text: &str, style: &MathStyle) {
-        let x = container_x + (container_w - text_w) / 2.0;
+    fn emit_centered(&mut self, params: &CenteredTextParams, style: &MathStyle) {
+        let x = params.container_x + (params.container_w - params.text_w) / 2.0;
         self.items.push(LayoutItem {
             x_mm: x,
-            y_mm: y,
+            y_mm: params.y,
             font_size_pt: style.font_size,
             font_weight: FontWeight::Normal,
             font_style: FontStyle::Normal,
             font_family: style.font_family.clone(),
             color: style.color,
-            text: text.to_string(),
+            text: params.text.to_string(),
             kind: ItemKind::Text,
         });
     }
@@ -187,7 +204,10 @@ impl<'a> MathContext<'a> {
         self.render_children(node, y_offset, style);
         let content_end = self.x;
         let lh = style.line_height_mm();
-        self.items.push(LayoutItem::hr_item(content_start, y_offset - lh * 0.5, content_end - content_start, 0.15, style.color));
+        self.items.push(LayoutItem::hr_item(
+            (content_start, y_offset - lh * 0.5),
+            ItemKind::HorizontalRule { width_mm: content_end - content_start, thickness_mm: 0.15, color: style.color },
+        ));
     }
 
     fn emit_text(&mut self, y_offset: f64, text: &str, style: &MathStyle) {

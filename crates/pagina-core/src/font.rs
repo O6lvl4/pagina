@@ -81,22 +81,29 @@ fn cache_chars_for_text(metrics: &mut FontMetrics, font_bytes: &[u8], font_index
 //  Font resolution
 // ═══════════════════════════════════════════════════════════════
 
-pub fn resolve_builtin(weight: FontWeight, style: FontStyle, family: &str) -> BuiltinFont {
-    let is_courier = {
-        let f = family.to_ascii_lowercase();
-        f.contains("courier") || f.contains("mono") || f.contains("monospace")
-    };
+/// Builtin font lookup table: (is_courier, weight, style) -> BuiltinFont.
+const BUILTIN_FONT_TABLE: &[(bool, bool, bool, BuiltinFont)] = &[
+    // (is_courier, is_bold, is_italic, font)
+    (true,  true,  true,  BuiltinFont::CourierBoldOblique),
+    (true,  true,  false, BuiltinFont::CourierBold),
+    (true,  false, true,  BuiltinFont::CourierOblique),
+    (true,  false, false, BuiltinFont::Courier),
+    (false, true,  true,  BuiltinFont::HelveticaBoldOblique),
+    (false, true,  false, BuiltinFont::HelveticaBold),
+    (false, false, true,  BuiltinFont::HelveticaOblique),
+    (false, false, false, BuiltinFont::Helvetica),
+];
 
-    match (is_courier, weight, style) {
-        (true, FontWeight::Bold, FontStyle::Italic) => BuiltinFont::CourierBoldOblique,
-        (true, FontWeight::Bold, _) => BuiltinFont::CourierBold,
-        (true, _, FontStyle::Italic) => BuiltinFont::CourierOblique,
-        (true, _, _) => BuiltinFont::Courier,
-        (false, FontWeight::Bold, FontStyle::Italic) => BuiltinFont::HelveticaBoldOblique,
-        (false, FontWeight::Bold, _) => BuiltinFont::HelveticaBold,
-        (false, _, FontStyle::Italic) => BuiltinFont::HelveticaOblique,
-        (false, _, _) => BuiltinFont::Helvetica,
-    }
+pub fn resolve_builtin(weight: FontWeight, style: FontStyle, family: &str) -> BuiltinFont {
+    let f = family.to_ascii_lowercase();
+    let is_courier = f.contains("courier") || f.contains("mono") || f.contains("monospace");
+    let is_bold = weight == FontWeight::Bold;
+    let is_italic = style == FontStyle::Italic;
+
+    BUILTIN_FONT_TABLE.iter()
+        .find(|(c, b, i, _)| *c == is_courier && *b == is_bold && *i == is_italic)
+        .map(|(_, _, _, font)| *font)
+        .unwrap_or(BuiltinFont::Helvetica)
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -121,6 +128,15 @@ pub struct ExternalFont {
 pub enum ResolvedFont {
     Builtin(BuiltinFont),
     External(usize),
+}
+
+/// Parameters for measuring text.
+pub struct MeasureParams<'a> {
+    pub text: &'a str,
+    pub family: &'a str,
+    pub weight: FontWeight,
+    pub style: FontStyle,
+    pub font_size_pt: f64,
 }
 
 impl FontManager {

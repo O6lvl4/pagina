@@ -12,16 +12,32 @@ pub enum Length {
     Zero,
 }
 
+/// Conversion factor from a length unit to millimetres (em_base_pt = 1.0).
+/// Em and Percent are handled separately in `to_mm`.
+fn unit_to_mm_factor(value: f64, variant_index: u8, em_base_pt: f64) -> f64 {
+    const FACTORS: [(f64, f64); 6] = [
+        (1.0, 0.0),          // Mm:  v * 1.0
+        (10.0, 0.0),         // Cm:  v * 10.0
+        (25.4, 0.0),         // In:  v * 25.4
+        (25.4, 72.0),        // Pt:  v * 25.4 / 72.0
+        (25.4, 6.0),         // Pc:  v * 25.4 / 6.0
+        (25.4, 96.0),        // Px:  v * 25.4 / 96.0
+    ];
+    let _ = em_base_pt;
+    let (mul, div) = FACTORS[variant_index as usize];
+    if div == 0.0 { value * mul } else { value * mul / div }
+}
+
 impl Length {
     /// Resolve to millimetres. `em_base_pt` is the current font size in pt.
     pub fn to_mm(self, em_base_pt: f64) -> f64 {
         match self {
-            Length::Mm(v) => v,
-            Length::Cm(v) => v * 10.0,
-            Length::In(v) => v * 25.4,
-            Length::Pt(v) => v * 25.4 / 72.0,
-            Length::Pc(v) => v * 25.4 / 6.0,
-            Length::Px(v) => v * 25.4 / 96.0,
+            Length::Mm(v) => unit_to_mm_factor(v, 0, em_base_pt),
+            Length::Cm(v) => unit_to_mm_factor(v, 1, em_base_pt),
+            Length::In(v) => unit_to_mm_factor(v, 2, em_base_pt),
+            Length::Pt(v) => unit_to_mm_factor(v, 3, em_base_pt),
+            Length::Pc(v) => unit_to_mm_factor(v, 4, em_base_pt),
+            Length::Px(v) => unit_to_mm_factor(v, 5, em_base_pt),
             Length::Em(v) => v * em_base_pt * 25.4 / 72.0,
             Length::Percent(v) => v / 100.0 * em_base_pt * 25.4 / 72.0,
             Length::Zero => 0.0,
@@ -78,7 +94,9 @@ impl Color {
 
     pub fn from_name(name: &str) -> Option<Self> {
         let lower = name.to_ascii_lowercase();
-        primary_color_name(&lower).or_else(|| secondary_color_name(&lower))
+        COLOR_TABLE.iter()
+            .find(|(n, _)| *n == lower)
+            .map(|(_, c)| *c)
     }
 
     pub fn from_hex(hex: &str) -> Option<Self> {
@@ -102,32 +120,27 @@ impl Color {
     }
 }
 
-fn primary_color_name(name: &str) -> Option<Color> {
-    Some(match name {
-        "black" => Color::BLACK,
-        "white" => Color::WHITE,
-        "red" => Color::rgb(255, 0, 0),
-        "green" => Color::rgb(0, 128, 0),
-        "blue" => Color::rgb(0, 0, 255),
-        "navy" => Color::rgb(0, 0, 128),
-        "transparent" => Color::TRANSPARENT,
-        _ => return None,
-    })
-}
-
-fn secondary_color_name(name: &str) -> Option<Color> {
-    Some(match name {
-        "gray" | "grey" => Color::rgb(128, 128, 128),
-        "darkgray" | "darkgrey" => Color::rgb(169, 169, 169),
-        "lightgray" | "lightgrey" => Color::rgb(211, 211, 211),
-        "maroon" => Color::rgb(128, 0, 0),
-        "orange" => Color::rgb(255, 165, 0),
-        "purple" => Color::rgb(128, 0, 128),
-        "teal" => Color::rgb(0, 128, 128),
-        "silver" => Color::rgb(192, 192, 192),
-        _ => return None,
-    })
-}
+/// Named color lookup table.
+const COLOR_TABLE: &[(&str, Color)] = &[
+    ("black", Color::BLACK),
+    ("white", Color::WHITE),
+    ("red", Color { r: 255, g: 0, b: 0, a: 1.0, cmyk: None }),
+    ("green", Color { r: 0, g: 128, b: 0, a: 1.0, cmyk: None }),
+    ("blue", Color { r: 0, g: 0, b: 255, a: 1.0, cmyk: None }),
+    ("navy", Color { r: 0, g: 0, b: 128, a: 1.0, cmyk: None }),
+    ("transparent", Color::TRANSPARENT),
+    ("gray", Color { r: 128, g: 128, b: 128, a: 1.0, cmyk: None }),
+    ("grey", Color { r: 128, g: 128, b: 128, a: 1.0, cmyk: None }),
+    ("darkgray", Color { r: 169, g: 169, b: 169, a: 1.0, cmyk: None }),
+    ("darkgrey", Color { r: 169, g: 169, b: 169, a: 1.0, cmyk: None }),
+    ("lightgray", Color { r: 211, g: 211, b: 211, a: 1.0, cmyk: None }),
+    ("lightgrey", Color { r: 211, g: 211, b: 211, a: 1.0, cmyk: None }),
+    ("maroon", Color { r: 128, g: 0, b: 0, a: 1.0, cmyk: None }),
+    ("orange", Color { r: 255, g: 165, b: 0, a: 1.0, cmyk: None }),
+    ("purple", Color { r: 128, g: 0, b: 128, a: 1.0, cmyk: None }),
+    ("teal", Color { r: 0, g: 128, b: 128, a: 1.0, cmyk: None }),
+    ("silver", Color { r: 192, g: 192, b: 192, a: 1.0, cmyk: None }),
+];
 
 impl Default for Color {
     fn default() -> Self {
@@ -208,38 +221,32 @@ pub enum MarginBoxPosition {
     LeftTop,
 }
 
-fn margin_box_top_bottom(name: &str) -> Option<MarginBoxPosition> {
-    Some(match name {
-        "top-left-corner" => MarginBoxPosition::TopLeftCorner,
-        "top-left" => MarginBoxPosition::TopLeft,
-        "top-center" => MarginBoxPosition::TopCenter,
-        "top-right" => MarginBoxPosition::TopRight,
-        "top-right-corner" => MarginBoxPosition::TopRightCorner,
-        "bottom-right-corner" => MarginBoxPosition::BottomRightCorner,
-        "bottom-right" => MarginBoxPosition::BottomRight,
-        "bottom-center" => MarginBoxPosition::BottomCenter,
-        "bottom-left" => MarginBoxPosition::BottomLeft,
-        "bottom-left-corner" => MarginBoxPosition::BottomLeftCorner,
-        _ => return None,
-    })
-}
-
-fn margin_box_side(name: &str) -> Option<MarginBoxPosition> {
-    Some(match name {
-        "right-top" => MarginBoxPosition::RightTop,
-        "right-middle" => MarginBoxPosition::RightMiddle,
-        "right-bottom" => MarginBoxPosition::RightBottom,
-        "left-bottom" => MarginBoxPosition::LeftBottom,
-        "left-middle" => MarginBoxPosition::LeftMiddle,
-        "left-top" => MarginBoxPosition::LeftTop,
-        _ => return None,
-    })
-}
+/// Lookup table for margin box position names.
+const MARGIN_BOX_TABLE: &[(&str, MarginBoxPosition)] = &[
+    ("top-left-corner", MarginBoxPosition::TopLeftCorner),
+    ("top-left", MarginBoxPosition::TopLeft),
+    ("top-center", MarginBoxPosition::TopCenter),
+    ("top-right", MarginBoxPosition::TopRight),
+    ("top-right-corner", MarginBoxPosition::TopRightCorner),
+    ("bottom-right-corner", MarginBoxPosition::BottomRightCorner),
+    ("bottom-right", MarginBoxPosition::BottomRight),
+    ("bottom-center", MarginBoxPosition::BottomCenter),
+    ("bottom-left", MarginBoxPosition::BottomLeft),
+    ("bottom-left-corner", MarginBoxPosition::BottomLeftCorner),
+    ("right-top", MarginBoxPosition::RightTop),
+    ("right-middle", MarginBoxPosition::RightMiddle),
+    ("right-bottom", MarginBoxPosition::RightBottom),
+    ("left-bottom", MarginBoxPosition::LeftBottom),
+    ("left-middle", MarginBoxPosition::LeftMiddle),
+    ("left-top", MarginBoxPosition::LeftTop),
+];
 
 impl MarginBoxPosition {
     pub fn from_name(name: &str) -> Option<Self> {
         let lower = name.to_ascii_lowercase();
-        margin_box_top_bottom(&lower).or_else(|| margin_box_side(&lower))
+        MARGIN_BOX_TABLE.iter()
+            .find(|(n, _)| *n == lower)
+            .map(|(_, pos)| *pos)
     }
 
     pub fn is_top(&self) -> bool {

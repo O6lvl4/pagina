@@ -9,7 +9,6 @@ pub fn make_tagged_pdf(pdf_bytes: &[u8], structure: &[DocStructureNode]) -> Vec<
         return pdf_bytes.to_vec();
     };
 
-    // Create StructTreeRoot
     let mut struct_kids = Vec::new();
 
     for node in structure {
@@ -23,7 +22,6 @@ pub fn make_tagged_pdf(pdf_bytes: &[u8], structure: &[DocStructureNode]) -> Vec<
     ]);
     let struct_tree_ref = doc.add_object(lopdf::Object::Dictionary(struct_tree));
 
-    // Add StructTreeRoot to catalog
     if let Ok(catalog) = doc.catalog_mut() {
         catalog.set("StructTreeRoot", lopdf::Object::Reference(struct_tree_ref));
         catalog.set("MarkInfo", lopdf::Object::Dictionary(
@@ -31,7 +29,6 @@ pub fn make_tagged_pdf(pdf_bytes: &[u8], structure: &[DocStructureNode]) -> Vec<
                 ("Marked", lopdf::Object::Boolean(true)),
             ]),
         ));
-        // Set document language
         catalog.set("Lang", lopdf::Object::String(b"en".to_vec(), lopdf::StringFormat::Literal));
     }
 
@@ -88,29 +85,38 @@ pub enum StructureRole {
 
 impl StructureRole {
     fn pdf_name(&self) -> &[u8] {
-        match self {
-            StructureRole::Heading(n) => heading_pdf_name(*n),
-            _ => self.non_heading_pdf_name(),
+        if let StructureRole::Heading(n) = self {
+            return heading_pdf_name(*n);
         }
+        non_heading_pdf_name(self)
     }
+}
 
-    fn non_heading_pdf_name(&self) -> &[u8] {
-        match self {
-            StructureRole::Document => b"Document",
-            StructureRole::Part => b"Part",
-            StructureRole::Paragraph => b"P",
-            StructureRole::List => b"L",
-            StructureRole::ListItem => b"LI",
-            StructureRole::Table => b"Table",
-            StructureRole::TableRow => b"TR",
-            StructureRole::TableHeader => b"TH",
-            StructureRole::TableData => b"TD",
-            StructureRole::Figure => b"Figure",
-            StructureRole::BlockQuote => b"BlockQuote",
-            StructureRole::Code => b"Code",
-            StructureRole::Span => b"Span",
-            StructureRole::Heading(_) => unreachable!(),
-        }
+fn non_heading_pdf_name(role: &StructureRole) -> &'static [u8] {
+    pdf_name_group_a(role).unwrap_or_else(|| pdf_name_group_b(role))
+}
+
+fn pdf_name_group_a(role: &StructureRole) -> Option<&'static [u8]> {
+    Some(match role {
+        StructureRole::Document => b"Document",
+        StructureRole::Part => b"Part",
+        StructureRole::Paragraph => b"P",
+        StructureRole::List => b"L",
+        StructureRole::ListItem => b"LI",
+        StructureRole::Table => b"Table",
+        StructureRole::TableRow => b"TR",
+        _ => return None,
+    })
+}
+
+fn pdf_name_group_b(role: &StructureRole) -> &'static [u8] {
+    match role {
+        StructureRole::TableHeader => b"TH",
+        StructureRole::TableData => b"TD",
+        StructureRole::Figure => b"Figure",
+        StructureRole::BlockQuote => b"BlockQuote",
+        StructureRole::Code => b"Code",
+        _ => b"Span",
     }
 }
 
@@ -142,14 +148,12 @@ pub fn build_structure(tree: &crate::style::StyledNode) -> Vec<DocStructureNode>
 }
 
 fn build_structure_recursive(node: &crate::style::StyledNode, out: &mut Vec<DocStructureNode>) {
-    // Special case: img is a leaf with alt text
     if node.tag == "img" {
         build_img_structure(node, out);
         return;
     }
 
     let Some(role) = tag_to_role(&node.tag) else {
-        // Container: recurse through children
         recurse_children(node, out);
         return;
     };
@@ -183,12 +187,22 @@ fn heading_tag_to_role(tag: &str) -> Option<StructureRole> {
 }
 
 fn block_tag_to_role(tag: &str) -> Option<StructureRole> {
+    block_tag_group_a(tag).or_else(|| block_tag_group_b(tag))
+}
+
+fn block_tag_group_a(tag: &str) -> Option<StructureRole> {
     Some(match tag {
         "p" => StructureRole::Paragraph,
         "ul" | "ol" => StructureRole::List,
         "li" => StructureRole::ListItem,
         "table" => StructureRole::Table,
         "tr" => StructureRole::TableRow,
+        _ => return None,
+    })
+}
+
+fn block_tag_group_b(tag: &str) -> Option<StructureRole> {
+    Some(match tag {
         "th" => StructureRole::TableHeader,
         "td" => StructureRole::TableData,
         "blockquote" => StructureRole::BlockQuote,

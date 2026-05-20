@@ -56,6 +56,15 @@ pub fn extract_text_blocks(handle: &Handle) -> Vec<TextBlock> {
     out
 }
 
+/// Tags that should be treated as leaf blocks (inline content collected).
+const LEAF_BLOCK_TAGS: &[&str] = &[
+    "p", "h1", "h2", "h3", "h4", "h5", "h6", "li", "pre", "blockquote",
+    "figcaption", "td", "th", "dt", "dd",
+];
+
+/// Tags to skip entirely during block collection.
+const SKIP_TAGS: &[&str] = &["style", "script", "head", "link", "meta", "title"];
+
 fn collect_blocks(handle: &Handle, out: &mut Vec<TextBlock>) {
     let NodeData::Element { ref name, .. } = handle.data else {
         for child in handle.children.borrow().iter() {
@@ -66,35 +75,28 @@ fn collect_blocks(handle: &Handle, out: &mut Vec<TextBlock>) {
 
     let tag = name.local.as_ref();
 
-    // Skip non-content elements
-    if matches!(tag, "style" | "script" | "head" | "link" | "meta" | "title") {
+    if SKIP_TAGS.contains(&tag) {
         return;
     }
 
-    let is_leaf_block = matches!(
-        tag,
-        "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "li" | "pre" | "blockquote"
-            | "figcaption"
-            | "td"
-            | "th"
-            | "dt"
-            | "dd"
-    );
-
-    if is_leaf_block {
-        let mut text = String::new();
-        collect_inline_text(handle, &mut text);
-        let text = text.trim().to_string();
-        if !text.is_empty() {
-            out.push(TextBlock {
-                tag: tag.to_string(),
-                text,
-            });
-        }
+    if LEAF_BLOCK_TAGS.contains(&tag) {
+        collect_leaf_block(handle, tag, out);
     } else {
         for child in handle.children.borrow().iter() {
             collect_blocks(child, out);
         }
+    }
+}
+
+fn collect_leaf_block(handle: &Handle, tag: &str, out: &mut Vec<TextBlock>) {
+    let mut text = String::new();
+    collect_inline_text(handle, &mut text);
+    let text = text.trim().to_string();
+    if !text.is_empty() {
+        out.push(TextBlock {
+            tag: tag.to_string(),
+            text,
+        });
     }
 }
 
@@ -105,14 +107,14 @@ fn collect_inline_text(handle: &Handle, buf: &mut String) {
             if name.local.as_ref() == "br" {
                 buf.push('\n');
             }
-            for child in handle.children.borrow().iter() {
-                collect_inline_text(child, buf);
-            }
+            collect_inline_children(handle, buf);
         }
-        _ => {
-            for child in handle.children.borrow().iter() {
-                collect_inline_text(child, buf);
-            }
-        }
+        _ => collect_inline_children(handle, buf),
+    }
+}
+
+fn collect_inline_children(handle: &Handle, buf: &mut String) {
+    for child in handle.children.borrow().iter() {
+        collect_inline_text(child, buf);
     }
 }

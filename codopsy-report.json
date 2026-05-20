@@ -1,29 +1,7 @@
 {
-  "timestamp": "2026-05-20T01:50:36.709903+00:00",
+  "timestamp": "2026-05-20T02:15:25.352799+00:00",
   "targetDir": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina",
   "files": [
-    {
-      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/codopsy-report.json",
-      "complexity": {
-        "cyclomatic": 0,
-        "cognitive": 0,
-        "functions": []
-      },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/codopsy-report.json",
-          "line": 1,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-lines",
-          "message": "File has 2749 lines (max: 300)"
-        }
-      ],
-      "score": {
-        "score": 90,
-        "grade": "A"
-      }
-    },
     {
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-cli/src/main.rs",
       "complexity": {
@@ -31,22 +9,16 @@
         "cognitive": 2,
         "functions": [
           {
+            "name": "stderr_msg",
+            "line": 38,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
             "name": "main",
-            "line": 37,
+            "line": 43,
             "complexity": 3,
             "cognitiveComplexity": 2
-          },
-          {
-            "name": "(closure)",
-            "line": 40,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 45,
-            "complexity": 1,
-            "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
@@ -56,53 +28,40 @@
           },
           {
             "name": "(closure)",
-            "line": 66,
+            "line": 51,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
-            "line": 67,
+            "line": 52,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 72,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 73,
             "complexity": 1,
             "cognitiveComplexity": 0
           }
         ]
       },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-cli/src/main.rs",
-          "line": 41,
-          "column": 9,
-          "severity": "info",
-          "rule": "no-println",
-          "message": "Unexpected `eprintln!()` macro, use a logging framework"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-cli/src/main.rs",
-          "line": 68,
-          "column": 9,
-          "severity": "info",
-          "rule": "no-println",
-          "message": "Unexpected `eprintln!()` macro, use a logging framework"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-cli/src/main.rs",
-          "line": 72,
-          "column": 5,
-          "severity": "info",
-          "rule": "no-println",
-          "message": "Unexpected `eprintln!()` macro, use a logging framework"
-        }
-      ],
+      "issues": [],
       "score": {
-        "score": 98,
+        "score": 100,
         "grade": "A"
       }
     },
     {
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/mod.rs",
       "complexity": {
-        "cyclomatic": 11,
+        "cyclomatic": 8,
         "cognitive": 7,
         "functions": [
           {
@@ -125,21 +84,879 @@
           },
           {
             "name": "named_page_size",
-            "line": 53,
-            "complexity": 11,
-            "cognitiveComplexity": 1
+            "line": 65,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 68,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 69,
+            "complexity": 1,
+            "cognitiveComplexity": 0
           },
           {
             "name": "specificity",
-            "line": 85,
+            "line": 90,
             "complexity": 7,
             "cognitiveComplexity": 1
           },
           {
             "name": "matches",
-            "line": 95,
+            "line": 100,
             "complexity": 8,
             "cognitiveComplexity": 2
+          },
+          {
+            "name": "(closure)",
+            "line": 104,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 106,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "matches_ancestor",
+            "line": 110,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "simple",
+            "line": 135,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "specificity",
+            "line": 139,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 140,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "subject",
+            "line": 147,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "matches",
+            "line": 153,
+            "complexity": 7,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "match_ancestor_chain",
+            "line": 175,
+            "complexity": 8,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "match_child",
+            "line": 193,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "match_descendant",
+            "line": 204,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "default",
+            "line": 247,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "for_page",
+            "line": 267,
+            "complexity": 5,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "apply_override",
+            "line": 282,
+            "complexity": 5,
+            "cognitiveComplexity": 6
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/content.rs",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 5,
+        "functions": [
+          {
+            "name": "parse_content_value",
+            "line": 8,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "parse_next_content_item",
+            "line": 22,
+            "complexity": 7,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "parse_content_function",
+            "line": 36,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 38,
+            "complexity": 7,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_simple_function",
+            "line": 50,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_target_counter",
+            "line": 58,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/mod.rs",
+      "complexity": {
+        "cyclomatic": 10,
+        "cognitive": 7,
+        "functions": [
+          {
+            "name": "parse_stylesheet",
+            "line": 26,
+            "complexity": 5,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "dispatch_stylesheet_token",
+            "line": 39,
+            "complexity": 10,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(closure)",
+            "line": 43,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 48,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_page_rules",
+            "line": 57,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_inline_style",
+            "line": 68,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "classify_token",
+            "line": 88,
+            "complexity": 9,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "try_parse_qualified_rule",
+            "line": 103,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(closure)",
+            "line": 108,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 114,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "collect_selector_text",
+            "line": 124,
+            "complexity": 6,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "append_selector_token",
+            "line": 135,
+            "complexity": 9,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_declaration_list",
+            "line": 151,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "try_parse_declaration",
+            "line": 161,
+            "complexity": 8,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "collect_value_tokens",
+            "line": 182,
+            "complexity": 9,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "parse_a4",
+            "line": 210,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_a4_landscape",
+            "line": 218,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_margin_shorthand",
+            "line": 226,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_margin_boxes",
+            "line": 234,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_css_rules",
+            "line": 251,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "parse_content_items",
+            "line": 265,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "parse_first_page_override",
+            "line": 273,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/mod.rs",
+          "line": 190,
+          "column": 24,
+          "severity": "warning",
+          "rule": "max-depth",
+          "message": "Nesting depth 5 exceeds max of 4"
+        }
+      ],
+      "score": {
+        "score": 96,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/page.rs",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 6,
+        "functions": [
+          {
+            "name": "parse_at_page",
+            "line": 15,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 17,
+            "complexity": 4,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 36,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_page_block",
+            "line": 42,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "handle_page_block_token",
+            "line": 52,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "handle_page_at_rule",
+            "line": 60,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "handle_page_declaration",
+            "line": 68,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 73,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "classify_page_block_token",
+            "line": 84,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "apply_page_declaration",
+            "line": 93,
+            "complexity": 9,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "apply_page_margin_side",
+            "line": 105,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_margin_box_rule",
+            "line": 115,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 125,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_margin_box_declarations",
+            "line": 140,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "apply_margin_box_declaration",
+            "line": 156,
+            "complexity": 9,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(closure)",
+            "line": 160,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_margin_box",
+            "line": 167,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "apply_override_margin_box",
+            "line": 188,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "apply_base_margin_box",
+            "line": 197,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "get_or_create_override",
+            "line": 205,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "skip_to_curly_block",
+            "line": 218,
+            "complexity": 7,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "skip_at_rule",
+            "line": 228,
+            "complexity": 6,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(closure)",
+            "line": 233,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/page.rs",
+          "line": 182,
+          "column": 40,
+          "severity": "warning",
+          "rule": "no-unwrap",
+          "message": "Avoid `.unwrap()`, use `?` or handle the error explicitly"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/page.rs",
+          "line": 188,
+          "column": 1,
+          "severity": "warning",
+          "rule": "max-params",
+          "message": "Function has 5 parameters (max: 4)"
+        }
+      ],
+      "score": {
+        "score": 93,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/page_size.rs",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 8,
+        "functions": [
+          {
+            "name": "parse_size",
+            "line": 7,
+            "complexity": 9,
+            "cognitiveComplexity": 8
+          },
+          {
+            "name": "(closure)",
+            "line": 8,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 14,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_margin",
+            "line": 36,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "apply_margin_values",
+            "line": 47,
+            "complexity": 7,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "try_length_mm",
+            "line": 61,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 63,
+            "complexity": 6,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "length_to_mm",
+            "line": 91,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 96,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "skip_value",
+            "line": 99,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/selector.rs",
+      "complexity": {
+        "cyclomatic": 12,
+        "cognitive": 7,
+        "functions": [
+          {
+            "name": "parse_selector_list",
+            "line": 5,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 7,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_compound_selector",
+            "line": 18,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "tokenize_selector",
+            "line": 32,
+            "complexity": 7,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "(closure)",
+            "line": 42,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "build_selector_parts",
+            "line": 52,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "parse_simple_selector",
+            "line": 66,
+            "complexity": 12,
+            "cognitiveComplexity": 7
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/selector.rs",
+          "line": 66,
+          "column": 1,
+          "severity": "warning",
+          "rule": "max-complexity",
+          "message": "Function \"parse_simple_selector\" has a cyclomatic complexity of 12 (threshold: 10)"
+        }
+      ],
+      "score": {
+        "score": 96,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/tokens.rs",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 5,
+        "functions": [
+          {
+            "name": "value_token_to_string",
+            "line": 6,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 7,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "simple_token_string",
+            "line": 10,
+            "complexity": 8,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "composite_token_string",
+            "line": 21,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_function_args",
+            "line": 30,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 32,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "collect_block_tokens",
+            "line": 38,
+            "complexity": 9,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "classify_value_token",
+            "line": 63,
+            "complexity": 9,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "collect_inner_function_idents",
+            "line": 77,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 79,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/value_parsers.rs",
+      "complexity": {
+        "cyclomatic": 13,
+        "cognitive": 5,
+        "functions": [
+          {
+            "name": "parse_length_value",
+            "line": 5,
+            "complexity": 13,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(closure)",
+            "line": 12,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_color_value",
+            "line": 28,
+            "complexity": 8,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "extract_function_args",
+            "line": 42,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 44,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_rgb_color",
+            "line": 47,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "parse_cmyk_color",
+            "line": 59,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_cmyk_component",
+            "line": 71,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "parse_text_align_value",
+            "line": 82,
+            "complexity": 7,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_font_weight_value",
+            "line": 92,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_font_style_value",
+            "line": 100,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_break_value",
+            "line": 108,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "parse_display_value",
+            "line": 117,
+            "complexity": 7,
+            "cognitiveComplexity": 1
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser/value_parsers.rs",
+          "line": 5,
+          "column": 1,
+          "severity": "warning",
+          "rule": "max-complexity",
+          "message": "Function \"parse_length_value\" has a cyclomatic complexity of 13 (threshold: 10)"
+        }
+      ],
+      "score": {
+        "score": 94,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/values.rs",
+      "complexity": {
+        "cyclomatic": 11,
+        "cognitive": 2,
+        "functions": [
+          {
+            "name": "unit_to_mm_factor",
+            "line": 17,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "to_mm",
+            "line": 33,
+            "complexity": 11,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "to_pt",
+            "line": 48,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "rgb",
+            "line": 83,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "cmyk",
+            "line": 87,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "from_name",
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 98,
+            "complexity": 1,
+            "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
@@ -148,786 +965,44 @@
             "cognitiveComplexity": 0
           },
           {
-            "name": "(closure)",
-            "line": 101,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "matches_ancestor",
-            "line": 105,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "simple",
-            "line": 130,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "specificity",
-            "line": 134,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 135,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "subject",
-            "line": 142,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "matches",
-            "line": 148,
-            "complexity": 7,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "match_ancestor_chain",
-            "line": 172,
-            "complexity": 8,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "match_child",
-            "line": 190,
-            "complexity": 5,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "match_descendant",
-            "line": 201,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "default",
-            "line": 237,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "for_page",
-            "line": 257,
-            "complexity": 5,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "apply_override",
-            "line": 272,
-            "complexity": 5,
-            "cognitiveComplexity": 6
-          }
-        ]
-      },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/mod.rs",
-          "line": 148,
-          "column": 5,
-          "severity": "warning",
-          "rule": "max-params",
-          "message": "Function has 5 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/mod.rs",
-          "line": 53,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"named_page_size\" has a cyclomatic complexity of 11 (threshold: 10)"
-        }
-      ],
-      "score": {
-        "score": 95,
-        "grade": "A"
-      }
-    },
-    {
-      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-      "complexity": {
-        "cyclomatic": 13,
-        "cognitive": 10,
-        "functions": [
-          {
-            "name": "parse_stylesheet",
-            "line": 11,
-            "complexity": 5,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "dispatch_stylesheet_token",
-            "line": 24,
-            "complexity": 10,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "(closure)",
-            "line": 28,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 33,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "apply_page_rules",
-            "line": 42,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_inline_style",
-            "line": 53,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "classify_token",
-            "line": 73,
-            "complexity": 9,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "parse_at_page",
-            "line": 88,
-            "complexity": 9,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "(closure)",
-            "line": 91,
-            "complexity": 4,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "(closure)",
-            "line": 119,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_page_block",
-            "line": 125,
-            "complexity": 6,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "handle_page_block_token",
-            "line": 135,
-            "complexity": 5,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "handle_page_at_rule",
-            "line": 143,
-            "complexity": 3,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "handle_page_declaration",
-            "line": 151,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "(closure)",
-            "line": 156,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "classify_page_block_token",
-            "line": 167,
-            "complexity": 6,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "apply_page_declaration",
-            "line": 176,
-            "complexity": 9,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "apply_page_margin_side",
-            "line": 188,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_margin_box_rule",
-            "line": 198,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "(closure)",
-            "line": 208,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "skip_to_curly_block",
-            "line": 215,
-            "complexity": 7,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "parse_margin_box_declarations",
-            "line": 233,
-            "complexity": 11,
-            "cognitiveComplexity": 8
-          },
-          {
-            "name": "(closure)",
-            "line": 247,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "apply_margin_box",
-            "line": 256,
-            "complexity": 12,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "get_or_create_override",
-            "line": 288,
-            "complexity": 6,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_content_value",
-            "line": 302,
-            "complexity": 11,
-            "cognitiveComplexity": 10
-          },
-          {
-            "name": "parse_content_function",
-            "line": 329,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 331,
-            "complexity": 7,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "(closure)",
-            "line": 349,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "try_parse_qualified_rule",
-            "line": 366,
-            "complexity": 5,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "(closure)",
-            "line": 371,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 377,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "collect_selector_text",
-            "line": 388,
-            "complexity": 6,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "append_selector_token",
-            "line": 399,
-            "complexity": 9,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_selector_list",
-            "line": 411,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 413,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_compound_selector",
-            "line": 424,
-            "complexity": 5,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "tokenize_selector",
-            "line": 438,
-            "complexity": 7,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "(closure)",
-            "line": 448,
-            "complexity": 2,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "build_selector_parts",
-            "line": 458,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "parse_simple_selector",
-            "line": 472,
-            "complexity": 12,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "parse_declaration_list",
-            "line": 495,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "try_parse_declaration",
-            "line": 505,
-            "complexity": 8,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "collect_value_tokens",
-            "line": 526,
-            "complexity": 9,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "value_token_to_string",
-            "line": 545,
-            "complexity": 11,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_function_args",
-            "line": 559,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 561,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "collect_block_tokens",
-            "line": 567,
-            "complexity": 9,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "classify_value_token",
-            "line": 593,
-            "complexity": 9,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "collect_inner_function_idents",
-            "line": 605,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 607,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "parse_length_value",
-            "line": 623,
-            "complexity": 13,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "(closure)",
-            "line": 631,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_color_value",
-            "line": 647,
-            "complexity": 8,
-            "cognitiveComplexity": 4
-          },
-          {
-            "name": "extract_function_args",
-            "line": 661,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 663,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_rgb_color",
-            "line": 666,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "(closure)",
-            "line": 674,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_cmyk_color",
-            "line": 678,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_cmyk_component",
-            "line": 690,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "parse_text_align_value",
-            "line": 702,
-            "complexity": 7,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_font_weight_value",
-            "line": 712,
-            "complexity": 5,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_font_style_value",
-            "line": 720,
-            "complexity": 5,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_break_value",
-            "line": 728,
-            "complexity": 6,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_display_value",
-            "line": 737,
-            "complexity": 7,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "parse_size",
-            "line": 751,
-            "complexity": 9,
-            "cognitiveComplexity": 8
-          },
-          {
-            "name": "(closure)",
-            "line": 752,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 758,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_margin",
-            "line": 780,
-            "complexity": 12,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "try_length_mm",
-            "line": 817,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 819,
-            "complexity": 6,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "length_to_mm",
-            "line": 838,
-            "complexity": 9,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "skip_value",
-            "line": 851,
-            "complexity": 6,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "skip_at_rule",
-            "line": 860,
-            "complexity": 6,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "(closure)",
-            "line": 865,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_a4",
-            "line": 883,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_a4_landscape",
-            "line": 891,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_margin_shorthand",
-            "line": 899,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_margin_boxes",
-            "line": 907,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_css_rules",
-            "line": 924,
-            "complexity": 3,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "parse_content_items",
-            "line": 938,
-            "complexity": 3,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "parse_first_page_override",
-            "line": 946,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          }
-        ]
-      },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 1,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-lines",
-          "message": "File has 965 lines (max: 300)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 534,
-          "column": 24,
-          "severity": "warning",
-          "rule": "max-depth",
-          "message": "Nesting depth 5 exceeds max of 4"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 233,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"parse_margin_box_declarations\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 256,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"apply_margin_box\" has a cyclomatic complexity of 12 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 302,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"parse_content_value\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 472,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"parse_simple_selector\" has a cyclomatic complexity of 12 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 545,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"value_token_to_string\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 623,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"parse_length_value\" has a cyclomatic complexity of 13 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/parser.rs",
-          "line": 780,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"parse_margin\" has a cyclomatic complexity of 12 (threshold: 10)"
-        }
-      ],
-      "score": {
-        "score": 62,
-        "grade": "C"
-      }
-    },
-    {
-      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/values.rs",
-      "complexity": {
-        "cyclomatic": 13,
-        "cognitive": 1,
-        "functions": [
-          {
-            "name": "to_mm",
-            "line": 17,
-            "complexity": 11,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "to_pt",
-            "line": 32,
-            "complexity": 6,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "rgb",
-            "line": 67,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "cmyk",
-            "line": 71,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "from_name",
-            "line": 79,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 81,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
             "name": "from_hex",
-            "line": 84,
+            "line": 102,
             "complexity": 5,
             "cognitiveComplexity": 1
           },
           {
-            "name": "primary_color_name",
-            "line": 105,
-            "complexity": 10,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "secondary_color_name",
-            "line": 118,
-            "complexity": 11,
-            "cognitiveComplexity": 1
-          },
-          {
             "name": "default",
-            "line": 133,
+            "line": 146,
             "complexity": 1,
             "cognitiveComplexity": 0
-          },
-          {
-            "name": "margin_box_top_bottom",
-            "line": 211,
-            "complexity": 13,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "margin_box_side",
-            "line": 227,
-            "complexity": 9,
-            "cognitiveComplexity": 1
           },
           {
             "name": "from_name",
-            "line": 240,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 242,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "is_top",
             "line": 245,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
-            "name": "is_bottom",
+            "name": "(closure)",
+            "line": 248,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 249,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "is_top",
             "line": 252,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "is_bottom",
+            "line": 259,
             "complexity": 1,
             "cognitiveComplexity": 0
           }
@@ -936,39 +1011,23 @@
       "issues": [
         {
           "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/values.rs",
-          "line": 17,
+          "line": 33,
           "column": 1,
           "severity": "warning",
           "rule": "max-complexity",
           "message": "Function \"to_mm\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/values.rs",
-          "line": 118,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"secondary_color_name\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/css/values.rs",
-          "line": 211,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"margin_box_top_bottom\" has a cyclomatic complexity of 13 (threshold: 10)"
         }
       ],
       "score": {
-        "score": 90,
+        "score": 98,
         "grade": "A"
       }
     },
     {
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/dom.rs",
       "complexity": {
-        "cyclomatic": 11,
-        "cognitive": 13,
+        "cyclomatic": 9,
+        "cognitive": 11,
         "functions": [
           {
             "name": "parse_html",
@@ -1008,45 +1067,40 @@
           },
           {
             "name": "collect_blocks",
-            "line": 59,
-            "complexity": 11,
-            "cognitiveComplexity": 13
+            "line": 68,
+            "complexity": 9,
+            "cognitiveComplexity": 11
+          },
+          {
+            "name": "collect_leaf_block",
+            "line": 91,
+            "complexity": 3,
+            "cognitiveComplexity": 1
           },
           {
             "name": "collect_inline_text",
-            "line": 101,
-            "complexity": 11,
-            "cognitiveComplexity": 13
+            "line": 103,
+            "complexity": 7,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "collect_inline_children",
+            "line": 116,
+            "complexity": 3,
+            "cognitiveComplexity": 3
           }
         ]
       },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/dom.rs",
-          "line": 59,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"collect_blocks\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/dom.rs",
-          "line": 101,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"collect_inline_text\" has a cyclomatic complexity of 11 (threshold: 10)"
-        }
-      ],
+      "issues": [],
       "score": {
-        "score": 96,
+        "score": 100,
         "grade": "A"
       }
     },
     {
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/font.rs",
       "complexity": {
-        "cyclomatic": 12,
+        "cyclomatic": 7,
         "cognitive": 8,
         "functions": [
           {
@@ -1087,55 +1141,67 @@
           },
           {
             "name": "resolve_builtin",
-            "line": 84,
-            "complexity": 12,
-            "cognitiveComplexity": 2
+            "line": 97,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 104,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 105,
+            "complexity": 1,
+            "cognitiveComplexity": 0
           },
           {
             "name": "new",
-            "line": 127,
+            "line": 143,
             "complexity": 5,
             "cognitiveComplexity": 5
           },
           {
             "name": "load_font",
-            "line": 147,
+            "line": 163,
             "complexity": 7,
             "cognitiveComplexity": 2
           },
           {
             "name": "resolve",
-            "line": 170,
+            "line": 186,
             "complexity": 5,
             "cognitiveComplexity": 5
           },
           {
             "name": "metrics",
-            "line": 180,
+            "line": 196,
             "complexity": 4,
             "cognitiveComplexity": 1
           },
           {
             "name": "measure_text",
-            "line": 189,
+            "line": 205,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "pdf_handle",
-            "line": 202,
+            "line": 218,
             "complexity": 6,
             "cognitiveComplexity": 4
           },
           {
             "name": "register_with_document",
-            "line": 216,
+            "line": 232,
             "complexity": 3,
             "cognitiveComplexity": 3
           },
           {
             "name": "cache_document_chars",
-            "line": 224,
+            "line": 240,
             "complexity": 7,
             "cognitiveComplexity": 8
           }
@@ -1144,23 +1210,15 @@
       "issues": [
         {
           "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/font.rs",
-          "line": 189,
+          "line": 205,
           "column": 5,
           "severity": "warning",
           "rule": "max-params",
           "message": "Function has 6 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/font.rs",
-          "line": 84,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"resolve_builtin\" has a cyclomatic complexity of 12 (threshold: 10)"
         }
       ],
       "score": {
-        "score": 93,
+        "score": 97,
         "grade": "A"
       }
     },
@@ -1168,7 +1226,7 @@
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/js.rs",
       "complexity": {
         "cyclomatic": 13,
-        "cognitive": 8,
+        "cognitive": 7,
         "functions": [
           {
             "name": "execute_scripts",
@@ -1178,642 +1236,673 @@
           },
           {
             "name": "extract_scripts",
-            "line": 32,
+            "line": 30,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "collect_scripts",
-            "line": 38,
+            "line": 36,
             "complexity": 7,
             "cognitiveComplexity": 6
           },
           {
             "name": "is_script_element",
-            "line": 51,
+            "line": 49,
             "complexity": 2,
             "cognitiveComplexity": 1
           },
           {
             "name": "extract_element_text",
-            "line": 55,
+            "line": 53,
             "complexity": 5,
             "cognitiveComplexity": 5
           },
           {
             "name": "register_document_api",
-            "line": 65,
+            "line": 63,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "extract_document_writes",
-            "line": 91,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 97,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "parse_json_string_array",
-            "line": 102,
-            "complexity": 6,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "tokenize_json_strings",
-            "line": 114,
-            "complexity": 12,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "classify_json_char",
-            "line": 146,
-            "complexity": 13,
-            "cognitiveComplexity": 8
-          },
-          {
-            "name": "run_scripts",
-            "line": 163,
-            "complexity": 5,
-            "cognitiveComplexity": 4
-          }
-        ]
-      },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/js.rs",
-          "line": 114,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"tokenize_json_strings\" has a cyclomatic complexity of 12 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/js.rs",
-          "line": 146,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"classify_json_char\" has a cyclomatic complexity of 13 (threshold: 10)"
-        }
-      ],
-      "score": {
-        "score": 90,
-        "grade": "A"
-      }
-    },
-    {
-      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-      "complexity": {
-        "cyclomatic": 13,
-        "cognitive": 9,
-        "functions": [
-          {
-            "name": "new",
-            "line": 22,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "text_item",
-            "line": 71,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "hr_item",
             "line": 85,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
-            "name": "image_item",
-            "line": 99,
+            "name": "(closure)",
+            "line": 91,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
-            "name": "from_computed",
-            "line": 152,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "same_as",
-            "line": 162,
-            "complexity": 7,
-            "cognitiveComplexity": 1
+            "name": "parse_json_string_array",
+            "line": 96,
+            "complexity": 6,
+            "cognitiveComplexity": 3
           },
           {
             "name": "new",
-            "line": 226,
+            "line": 117,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
-            "name": "new_page",
-            "line": 245,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "available_height",
-            "line": 252,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "current_page_mut",
-            "line": 256,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "current_page_has_items",
-            "line": 260,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 261,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "push_item",
-            "line": 264,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "needs_page_break",
-            "line": 268,
-            "complexity": 2,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "ensure_space",
-            "line": 272,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "add_footnote",
-            "line": 278,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "flush_footnotes",
-            "line": 290,
-            "complexity": 5,
-            "cognitiveComplexity": 4
-          },
-          {
-            "name": "resolve_target_counters",
-            "line": 312,
-            "complexity": 5,
-            "cognitiveComplexity": 8
-          },
-          {
-            "name": "resolve_margin_boxes",
-            "line": 321,
-            "complexity": 3,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "resolve_target_placeholders",
-            "line": 335,
-            "complexity": 7,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "build_margin_boxes",
-            "line": 357,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "(closure)",
-            "line": 372,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "default_text_align_for",
-            "line": 378,
-            "complexity": 6,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "resolve_content",
-            "line": 387,
-            "complexity": 3,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "resolve_single_content_item",
-            "line": 395,
+            "name": "feed",
+            "line": 121,
             "complexity": 13,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "new",
-            "line": 428,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "collect",
-            "line": 432,
-            "complexity": 6,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "collect_text",
-            "line": 441,
-            "complexity": 7,
             "cognitiveComplexity": 7
           },
           {
-            "name": "collect_element",
-            "line": 459,
-            "complexity": 5,
+            "name": "finish",
+            "line": 144,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "tokenize_json_strings",
+            "line": 152,
+            "complexity": 3,
             "cognitiveComplexity": 3
           },
           {
-            "name": "collect_footnote",
-            "line": 469,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "collect_generated_content",
-            "line": 485,
+            "name": "run_scripts",
+            "line": 161,
             "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "resolve_generated_content_item",
-            "line": 505,
-            "complexity": 8,
             "cognitiveComplexity": 4
-          },
-          {
-            "name": "(closure)",
-            "line": 511,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 512,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "new",
-            "line": 539,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "break_words",
-            "line": 550,
-            "complexity": 9,
-            "cognitiveComplexity": 8
-          },
-          {
-            "name": "handle_newline_word",
-            "line": 566,
-            "complexity": 7,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "handle_space",
-            "line": 583,
-            "complexity": 7,
-            "cognitiveComplexity": 4
-          },
-          {
-            "name": "handle_regular_word",
-            "line": 596,
-            "complexity": 6,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "try_merge_with_previous",
-            "line": 621,
-            "complexity": 4,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "trim_trailing_space",
-            "line": 632,
-            "complexity": 5,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "finish_current_line",
-            "line": 640,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "break_into_lines",
-            "line": 651,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "lay_out",
-            "line": 659,
-            "complexity": 4,
-            "cognitiveComplexity": 4
-          },
-          {
-            "name": "(closure)",
-            "line": 667,
-            "complexity": 2,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "lay_out_node",
-            "line": 676,
-            "complexity": 12,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "update_running_strings",
-            "line": 699,
-            "complexity": 4,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "(closure)",
-            "line": 704,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 705,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "handle_break_before",
-            "line": 711,
-            "complexity": 5,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "record_element_id",
-            "line": 717,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "lay_out_container",
-            "line": 723,
-            "complexity": 9,
-            "cognitiveComplexity": 9
-          },
-          {
-            "name": "lay_out_hr",
-            "line": 741,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "lay_out_list",
-            "line": 753,
-            "complexity": 5,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "lay_out_block",
-            "line": 770,
-            "complexity": 8,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "(closure)",
-            "line": 782,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "emit_heading_bookmark",
-            "line": 801,
-            "complexity": 5,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "emit_block_text_lines",
-            "line": 814,
-            "complexity": 3,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "compute_align_offset",
-            "line": 829,
-            "complexity": 5,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "emit_line_segments",
-            "line": 837,
-            "complexity": 3,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "emit_border_bottom",
-            "line": 845,
-            "complexity": 3,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "lay_out_simple_text",
-            "line": 857,
-            "complexity": 8,
-            "cognitiveComplexity": 9
-          },
-          {
-            "name": "lay_out_list_item",
-            "line": 883,
-            "complexity": 5,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "lay_out_image",
-            "line": 914,
-            "complexity": 5,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "(closure)",
-            "line": 915,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 915,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "embed_loaded_image",
-            "line": 942,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "scale_to_fit",
-            "line": 954,
-            "complexity": 3,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "lay_out_table",
-            "line": 961,
-            "complexity": 7,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "(closure)",
-            "line": 969,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "collect_table_rows",
-            "line": 989,
-            "complexity": 7,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "collect_rows_from_section",
-            "line": 1010,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "emit_table_row",
-            "line": 1022,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "emit_table_row_separator",
-            "line": 1046,
-            "complexity": 6,
-            "cognitiveComplexity": 4
-          },
-          {
-            "name": "collect_table_row",
-            "line": 1057,
-            "complexity": 5,
-            "cognitiveComplexity": 5
-          },
-          {
-            "name": "lay_out_math",
-            "line": 1068,
-            "complexity": 3,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "collect_links_from_node",
-            "line": 1083,
-            "complexity": 7,
-            "cognitiveComplexity": 6
-          },
-          {
-            "name": "emit_link_annotation",
-            "line": 1094,
-            "complexity": 3,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "(closure)",
-            "line": 1095,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 1095,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "collect_text_content",
-            "line": 1119,
-            "complexity": 6,
-            "cognitiveComplexity": 5
           }
         ]
       },
       "issues": [
         {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-          "line": 1,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-lines",
-          "message": "File has 1129 lines (max: 300)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-          "line": 85,
-          "column": 5,
-          "severity": "warning",
-          "rule": "max-params",
-          "message": "Function has 5 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-          "line": 99,
-          "column": 5,
-          "severity": "warning",
-          "rule": "max-params",
-          "message": "Function has 5 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-          "line": 1022,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-params",
-          "message": "Function has 6 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-          "line": 395,
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/js.rs",
+          "line": 121,
           "column": 1,
           "severity": "warning",
           "rule": "max-complexity",
-          "message": "Function \"resolve_single_content_item\" has a cyclomatic complexity of 13 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout.rs",
-          "line": 676,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"lay_out_node\" has a cyclomatic complexity of 12 (threshold: 10)"
+          "message": "Function \"feed\" has a cyclomatic complexity of 13 (threshold: 10)"
         }
       ],
       "score": {
-        "score": 71,
-        "grade": "C"
+        "score": 94,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout/blocks.rs",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 9,
+        "functions": [
+          {
+            "name": "lay_out_node",
+            "line": 17,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "dispatch_node",
+            "line": 29,
+            "complexity": 9,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "update_running_strings",
+            "line": 44,
+            "complexity": 4,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "(closure)",
+            "line": 49,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 50,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "handle_break_before",
+            "line": 56,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "record_element_id",
+            "line": 62,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "lay_out_container",
+            "line": 72,
+            "complexity": 9,
+            "cognitiveComplexity": 9
+          },
+          {
+            "name": "lay_out_block",
+            "line": 94,
+            "complexity": 8,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "(closure)",
+            "line": 105,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "emit_heading_bookmark",
+            "line": 122,
+            "complexity": 5,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "emit_block_text_lines",
+            "line": 135,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "emit_border_bottom",
+            "line": 152,
+            "complexity": 3,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "lay_out_simple_text",
+            "line": 167,
+            "complexity": 8,
+            "cognitiveComplexity": 9
+          },
+          {
+            "name": "lay_out_hr",
+            "line": 199,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "lay_out_list",
+            "line": 212,
+            "complexity": 5,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "lay_out_list_item",
+            "line": 228,
+            "complexity": 5,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "collect_links_from_node",
+            "line": 265,
+            "complexity": 7,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "emit_link_annotation",
+            "line": 276,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "(closure)",
+            "line": 277,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 277,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout/content.rs",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 7,
+        "functions": [
+          {
+            "name": "build_margin_boxes",
+            "line": 21,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "(closure)",
+            "line": 36,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "default_text_align_for",
+            "line": 42,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "resolve_content",
+            "line": 51,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "resolve_single_content_item",
+            "line": 59,
+            "complexity": 9,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "resolve_counter",
+            "line": 73,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "resolve_target_placeholders",
+            "line": 81,
+            "complexity": 7,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "resolve_generated_content_item",
+            "line": 97,
+            "complexity": 8,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "(closure)",
+            "line": 103,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 104,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "collect_text_content",
+            "line": 117,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout/line_break.rs",
+      "complexity": {
+        "cyclomatic": 9,
+        "cognitive": 8,
+        "functions": [
+          {
+            "name": "new",
+            "line": 40,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "collect",
+            "line": 44,
+            "complexity": 6,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "collect_text",
+            "line": 53,
+            "complexity": 7,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "collect_element",
+            "line": 71,
+            "complexity": 5,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "collect_footnote",
+            "line": 81,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "collect_generated_content",
+            "line": 97,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "new",
+            "line": 129,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "break_words",
+            "line": 140,
+            "complexity": 9,
+            "cognitiveComplexity": 8
+          },
+          {
+            "name": "handle_newline_word",
+            "line": 156,
+            "complexity": 7,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "handle_space",
+            "line": 173,
+            "complexity": 7,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "handle_regular_word",
+            "line": 186,
+            "complexity": 6,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "try_merge_with_previous",
+            "line": 209,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "trim_trailing_space",
+            "line": 220,
+            "complexity": 5,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "finish_current_line",
+            "line": 228,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "break_into_lines",
+            "line": 239,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "compute_align_offset",
+            "line": 247,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "emit_line_segments",
+            "line": 255,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout/mod.rs",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 4,
+        "functions": [
+          {
+            "name": "new",
+            "line": 28,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "text_item",
+            "line": 75,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "hr_item",
+            "line": 87,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "image_item",
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "from_computed",
+            "line": 142,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "same_as",
+            "line": 149,
+            "complexity": 7,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "lay_out",
+            "line": 172,
+            "complexity": 4,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "(closure)",
+            "line": 180,
+            "complexity": 2,
+            "cognitiveComplexity": 1
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout/state.rs",
+      "complexity": {
+        "cyclomatic": 5,
+        "cognitive": 8,
+        "functions": [
+          {
+            "name": "new",
+            "line": 39,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "new_page",
+            "line": 58,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "available_height",
+            "line": 65,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "current_page_mut",
+            "line": 69,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "current_page_has_items",
+            "line": 73,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 74,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "push_item",
+            "line": 77,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "ensure_space",
+            "line": 81,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "add_footnote",
+            "line": 87,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "flush_footnotes",
+            "line": 99,
+            "complexity": 5,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "resolve_target_counters",
+            "line": 122,
+            "complexity": 5,
+            "cognitiveComplexity": 8
+          },
+          {
+            "name": "resolve_margin_boxes",
+            "line": 131,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/layout/table_image.rs",
+      "complexity": {
+        "cyclomatic": 7,
+        "cognitive": 6,
+        "functions": [
+          {
+            "name": "lay_out_image",
+            "line": 13,
+            "complexity": 5,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(closure)",
+            "line": 14,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 14,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "embed_loaded_image",
+            "line": 44,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "scale_to_fit",
+            "line": 59,
+            "complexity": 3,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "lay_out_table",
+            "line": 76,
+            "complexity": 7,
+            "cognitiveComplexity": 6
+          },
+          {
+            "name": "(closure)",
+            "line": 84,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "collect_table_rows",
+            "line": 106,
+            "complexity": 7,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "collect_rows_from_section",
+            "line": 127,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "emit_table_row",
+            "line": 139,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "emit_table_row_separator",
+            "line": 161,
+            "complexity": 6,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "collect_table_row",
+            "line": 173,
+            "complexity": 5,
+            "cognitiveComplexity": 5
+          },
+          {
+            "name": "lay_out_math",
+            "line": 188,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          }
+        ]
+      },
+      "issues": [],
+      "score": {
+        "score": 100,
+        "grade": "A"
       }
     },
     {
@@ -1823,75 +1912,64 @@
         "cognitive": 5,
         "functions": [
           {
+            "name": "warn",
+            "line": 18,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
             "name": "convert",
-            "line": 26,
+            "line": 32,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "convert_with_options",
-            "line": 31,
+            "line": 37,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "load_custom_fonts",
-            "line": 48,
+            "line": 54,
             "complexity": 5,
             "cognitiveComplexity": 5
           },
           {
             "name": "(closure)",
-            "line": 56,
+            "line": 62,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "prepare_dom",
-            "line": 65,
+            "line": 71,
             "complexity": 5,
             "cognitiveComplexity": 3
           },
           {
             "name": "parse_styles",
-            "line": 81,
+            "line": 87,
             "complexity": 3,
             "cognitiveComplexity": 3
           },
           {
             "name": "apply_post_processing",
-            "line": 91,
+            "line": 97,
             "complexity": 5,
             "cognitiveComplexity": 2
           },
           {
             "name": "convert_with_fonts",
-            "line": 102,
+            "line": 108,
             "complexity": 1,
             "cognitiveComplexity": 0
           }
         ]
       },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/lib.rs",
-          "line": 51,
-          "column": 13,
-          "severity": "info",
-          "rule": "no-println",
-          "message": "Unexpected `eprintln!()` macro, use a logging framework"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/lib.rs",
-          "line": 60,
-          "column": 13,
-          "severity": "info",
-          "rule": "no-println",
-          "message": "Unexpected `eprintln!()` macro, use a logging framework"
-        }
-      ],
+      "issues": [],
       "score": {
-        "score": 99,
+        "score": 100,
         "grade": "A"
       }
     },
@@ -1933,192 +2011,195 @@
           },
           {
             "name": "render_node",
-            "line": 72,
+            "line": 80,
             "complexity": 10,
             "cognitiveComplexity": 1
           },
           {
             "name": "render_children",
-            "line": 85,
+            "line": 93,
             "complexity": 3,
             "cognitiveComplexity": 3
           },
           {
             "name": "render_content",
-            "line": 91,
+            "line": 99,
             "complexity": 6,
             "cognitiveComplexity": 3
           },
           {
             "name": "render_mi",
-            "line": 103,
+            "line": 111,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "render_mn_mo",
-            "line": 120,
+            "line": 128,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "render_mfrac",
-            "line": 125,
+            "line": 133,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "emit_centered",
-            "line": 147,
+            "line": 164,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "render_msup",
-            "line": 162,
+            "line": 179,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "render_msub",
-            "line": 173,
+            "line": 190,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "render_msqrt",
-            "line": 184,
+            "line": 201,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "emit_text",
-            "line": 193,
+            "line": 213,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "element_children",
-            "line": 210,
+            "line": 230,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
-            "line": 211,
+            "line": 231,
             "complexity": 3,
             "cognitiveComplexity": 2
           },
           {
             "name": "collect_math_text",
-            "line": 216,
+            "line": 236,
             "complexity": 5,
             "cognitiveComplexity": 5
           },
           {
             "name": "collect_all_text",
-            "line": 226,
+            "line": 246,
             "complexity": 6,
             "cognitiveComplexity": 5
           },
           {
             "name": "measure_item_width",
-            "line": 237,
+            "line": 257,
             "complexity": 5,
             "cognitiveComplexity": 3
           }
         ]
       },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/mathml.rs",
-          "line": 147,
-          "column": 5,
-          "severity": "warning",
-          "rule": "max-params",
-          "message": "Function has 7 parameters (max: 4)"
-        }
-      ],
+      "issues": [],
       "score": {
-        "score": 97,
+        "score": 100,
         "grade": "A"
       }
     },
     {
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdf.rs",
       "complexity": {
-        "cyclomatic": 11,
-        "cognitive": 9,
+        "cyclomatic": 9,
+        "cognitive": 8,
         "functions": [
           {
             "name": "render",
-            "line": 12,
+            "line": 19,
             "complexity": 5,
             "cognitiveComplexity": 8
           },
           {
             "name": "(closure)",
-            "line": 29,
+            "line": 36,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
-            "line": 43,
+            "line": 52,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "color_to_printpdf",
-            "line": 62,
+            "line": 71,
             "complexity": 3,
             "cognitiveComplexity": 2
           },
           {
             "name": "build_page_ops",
-            "line": 81,
-            "complexity": 6,
-            "cognitiveComplexity": 5
+            "line": 90,
+            "complexity": 1,
+            "cognitiveComplexity": 0
           },
           {
             "name": "render_items",
-            "line": 123,
+            "line": 99,
             "complexity": 9,
             "cognitiveComplexity": 8
           },
           {
             "name": "render_text_item",
-            "line": 145,
+            "line": 119,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "render_hr",
-            "line": 166,
+            "line": 148,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "render_image",
-            "line": 194,
+            "line": 180,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "render_margin_boxes",
-            "line": 219,
-            "complexity": 11,
-            "cognitiveComplexity": 9
+            "line": 204,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "render_single_margin_box",
+            "line": 214,
+            "complexity": 9,
+            "cognitiveComplexity": 4
+          },
+          {
+            "name": "render_link_annotations",
+            "line": 246,
+            "complexity": 6,
+            "cognitiveComplexity": 5
           },
           {
             "name": "margin_box_area_x",
-            "line": 258,
+            "line": 273,
             "complexity": 5,
             "cognitiveComplexity": 1
           },
           {
             "name": "margin_box_area_width",
-            "line": 268,
+            "line": 283,
             "complexity": 8,
             "cognitiveComplexity": 1
           }
@@ -2127,15 +2208,7 @@
       "issues": [
         {
           "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdf.rs",
-          "line": 123,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-params",
-          "message": "Function has 5 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdf.rs",
-          "line": 166,
+          "line": 148,
           "column": 1,
           "severity": "warning",
           "rule": "max-params",
@@ -2143,24 +2216,16 @@
         },
         {
           "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdf.rs",
-          "line": 194,
+          "line": 180,
           "column": 1,
           "severity": "warning",
           "rule": "max-params",
           "message": "Function has 6 parameters (max: 4)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdf.rs",
-          "line": 219,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"render_margin_boxes\" has a cyclomatic complexity of 11 (threshold: 10)"
         }
       ],
       "score": {
-        "score": 89,
-        "grade": "B"
+        "score": 94,
+        "grade": "A"
       }
     },
     {
@@ -2216,7 +2281,7 @@
     {
       "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdfua.rs",
       "complexity": {
-        "cyclomatic": 16,
+        "cyclomatic": 10,
         "cognitive": 6,
         "functions": [
           {
@@ -2227,338 +2292,225 @@
           },
           {
             "name": "add_struct_elem",
-            "line": 43,
+            "line": 40,
             "complexity": 9,
             "cognitiveComplexity": 6
           },
           {
             "name": "pdf_name",
-            "line": 90,
-            "complexity": 4,
+            "line": 87,
+            "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "non_heading_pdf_name",
-            "line": 97,
-            "complexity": 16,
+            "line": 95,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 96,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "pdf_name_group_a",
+            "line": 99,
+            "complexity": 10,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "pdf_name_group_b",
+            "line": 112,
+            "complexity": 8,
             "cognitiveComplexity": 1
           },
           {
             "name": "heading_pdf_name",
-            "line": 117,
+            "line": 123,
             "complexity": 8,
             "cognitiveComplexity": 1
           },
           {
             "name": "build_structure",
-            "line": 138,
+            "line": 144,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "build_structure_recursive",
-            "line": 144,
+            "line": 150,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "build_img_structure",
-            "line": 161,
+            "line": 165,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
-            "line": 163,
+            "line": 167,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
-            "line": 164,
+            "line": 168,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "tag_to_role",
-            "line": 173,
+            "line": 177,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "(closure)",
-            "line": 174,
+            "line": 178,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "heading_tag_to_role",
-            "line": 177,
+            "line": 181,
             "complexity": 9,
             "cognitiveComplexity": 1
           },
           {
             "name": "block_tag_to_role",
-            "line": 185,
-            "complexity": 13,
+            "line": 189,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 190,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "block_tag_group_a",
+            "line": 193,
+            "complexity": 8,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "block_tag_group_b",
+            "line": 204,
+            "complexity": 8,
             "cognitiveComplexity": 1
           },
           {
             "name": "collect_child_structures",
-            "line": 201,
+            "line": 215,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "recurse_children",
-            "line": 207,
+            "line": 221,
             "complexity": 5,
             "cognitiveComplexity": 5
           }
         ]
       },
-      "issues": [
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdfua.rs",
-          "line": 97,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"non_heading_pdf_name\" has a cyclomatic complexity of 16 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdfua.rs",
-          "line": 185,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"block_tag_to_role\" has a cyclomatic complexity of 13 (threshold: 10)"
-        }
-      ],
+      "issues": [],
       "score": {
-        "score": 82,
-        "grade": "B"
+        "score": 100,
+        "grade": "A"
       }
     },
     {
-      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style.rs",
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/declarations.rs",
       "complexity": {
-        "cyclomatic": 13,
-        "cognitive": 14,
+        "cyclomatic": 12,
+        "cognitive": 6,
         "functions": [
           {
-            "name": "default",
-            "line": 43,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "ua_style",
-            "line": 69,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "apply_ua_defaults",
-            "line": 75,
-            "complexity": 4,
-            "cognitiveComplexity": 2
-          },
-          {
-            "name": "apply_ua_heading",
-            "line": 81,
-            "complexity": 8,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "apply_ua_inline",
-            "line": 97,
-            "complexity": 7,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "apply_ua_block",
-            "line": 108,
-            "complexity": 11,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "build_styled_tree",
-            "line": 143,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "build_styled_node",
-            "line": 154,
-            "complexity": 5,
-            "cognitiveComplexity": 1
-          },
-          {
-            "name": "build_document_node",
-            "line": 172,
-            "complexity": 7,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "collect_attrs",
-            "line": 195,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 197,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "find_attr",
-            "line": 201,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 202,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "(closure)",
-            "line": 202,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "build_element_node",
-            "line": 205,
-            "complexity": 7,
-            "cognitiveComplexity": 3
-          },
-          {
-            "name": "(closure)",
-            "line": 217,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "compute_element_style",
-            "line": 246,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "apply_matched_rules",
-            "line": 253,
-            "complexity": 9,
-            "cognitiveComplexity": 14
-          },
-          {
-            "name": "(closure)",
-            "line": 263,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "inherit_from_parent",
-            "line": 269,
-            "complexity": 8,
-            "cognitiveComplexity": 7
-          },
-          {
-            "name": "make_child_ancestors",
-            "line": 285,
-            "complexity": 1,
-            "cognitiveComplexity": 0
-          },
-          {
-            "name": "build_children",
-            "line": 295,
-            "complexity": 13,
-            "cognitiveComplexity": 12
-          },
-          {
             "name": "apply_declarations",
-            "line": 317,
+            "line": 6,
             "complexity": 3,
             "cognitiveComplexity": 3
           },
           {
             "name": "apply_single_declaration",
-            "line": 323,
+            "line": 12,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_font_declaration",
-            "line": 331,
+            "line": 20,
             "complexity": 10,
             "cognitiveComplexity": 1
           },
           {
             "name": "set_if_some",
-            "line": 345,
+            "line": 34,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_opt_length_pt",
-            "line": 351,
+            "line": 40,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_box_declaration",
-            "line": 358,
+            "line": 47,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_spacing_declaration",
-            "line": 364,
+            "line": 53,
             "complexity": 9,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_opt_length_mm",
-            "line": 377,
+            "line": 66,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_misc_declaration",
-            "line": 383,
+            "line": 72,
             "complexity": 12,
             "cognitiveComplexity": 5
           },
           {
             "name": "apply_line_height",
-            "line": 394,
+            "line": 92,
             "complexity": 5,
             "cognitiveComplexity": 2
           },
           {
             "name": "apply_margin_shorthand",
-            "line": 402,
+            "line": 100,
             "complexity": 3,
             "cognitiveComplexity": 1
           },
           {
             "name": "apply_string_set",
-            "line": 410,
+            "line": 108,
             "complexity": 5,
             "cognitiveComplexity": 3
           },
           {
             "name": "(closure)",
-            "line": 417,
+            "line": 115,
             "complexity": 1,
             "cognitiveComplexity": 0
           },
           {
             "name": "apply_border_bottom",
-            "line": 426,
+            "line": 124,
             "complexity": 9,
             "cognitiveComplexity": 6
           }
@@ -2566,32 +2518,8 @@
       },
       "issues": [
         {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style.rs",
-          "line": 1,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-lines",
-          "message": "File has 439 lines (max: 300)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style.rs",
-          "line": 108,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"apply_ua_block\" has a cyclomatic complexity of 11 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style.rs",
-          "line": 295,
-          "column": 1,
-          "severity": "warning",
-          "rule": "max-complexity",
-          "message": "Function \"build_children\" has a cyclomatic complexity of 13 (threshold: 10)"
-        },
-        {
-          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style.rs",
-          "line": 383,
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/declarations.rs",
+          "line": 72,
           "column": 1,
           "severity": "warning",
           "rule": "max-complexity",
@@ -2599,8 +2527,236 @@
         }
       ],
       "score": {
-        "score": 78,
-        "grade": "B"
+        "score": 96,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/mod.rs",
+      "complexity": {
+        "cyclomatic": 11,
+        "cognitive": 14,
+        "functions": [
+          {
+            "name": "default",
+            "line": 46,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "build_styled_tree",
+            "line": 92,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "build_styled_node",
+            "line": 103,
+            "complexity": 5,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "build_document_node",
+            "line": 121,
+            "complexity": 7,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "collect_attrs",
+            "line": 144,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 146,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "find_attr",
+            "line": 150,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 151,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 151,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "build_element_node",
+            "line": 154,
+            "complexity": 7,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "(closure)",
+            "line": 166,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "compute_element_style",
+            "line": 189,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_matched_rules",
+            "line": 196,
+            "complexity": 9,
+            "cognitiveComplexity": 14
+          },
+          {
+            "name": "(closure)",
+            "line": 206,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "inherit_from_parent",
+            "line": 212,
+            "complexity": 8,
+            "cognitiveComplexity": 7
+          },
+          {
+            "name": "make_child_ancestors",
+            "line": 228,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "build_children",
+            "line": 238,
+            "complexity": 3,
+            "cognitiveComplexity": 3
+          },
+          {
+            "name": "build_child",
+            "line": 247,
+            "complexity": 11,
+            "cognitiveComplexity": 6
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/mod.rs",
+          "line": 247,
+          "column": 1,
+          "severity": "warning",
+          "rule": "max-params",
+          "message": "Function has 5 parameters (max: 4)"
+        },
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/mod.rs",
+          "line": 247,
+          "column": 1,
+          "severity": "warning",
+          "rule": "max-complexity",
+          "message": "Function \"build_child\" has a cyclomatic complexity of 11 (threshold: 10)"
+        }
+      ],
+      "score": {
+        "score": 95,
+        "grade": "A"
+      }
+    },
+    {
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/ua.rs",
+      "complexity": {
+        "cyclomatic": 13,
+        "cognitive": 6,
+        "functions": [
+          {
+            "name": "ua_style",
+            "line": 7,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_ua_defaults",
+            "line": 13,
+            "complexity": 4,
+            "cognitiveComplexity": 2
+          },
+          {
+            "name": "apply_ua_heading",
+            "line": 19,
+            "complexity": 8,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "apply_ua_inline",
+            "line": 35,
+            "complexity": 7,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "apply_ua_block",
+            "line": 46,
+            "complexity": 6,
+            "cognitiveComplexity": 1
+          },
+          {
+            "name": "apply_ua_li",
+            "line": 55,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_ua_hr",
+            "line": 60,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_ua_th",
+            "line": 66,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_ua_block_from_table",
+            "line": 82,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "(closure)",
+            "line": 83,
+            "complexity": 1,
+            "cognitiveComplexity": 0
+          },
+          {
+            "name": "apply_block_entry",
+            "line": 87,
+            "complexity": 13,
+            "cognitiveComplexity": 6
+          }
+        ]
+      },
+      "issues": [
+        {
+          "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/ua.rs",
+          "line": 87,
+          "column": 1,
+          "severity": "warning",
+          "rule": "max-complexity",
+          "message": "Function \"apply_block_entry\" has a cyclomatic complexity of 13 (threshold: 10)"
+        }
+      ],
+      "score": {
+        "score": 94,
+        "grade": "A"
       }
     },
     {
@@ -2721,29 +2877,29 @@
     }
   ],
   "summary": {
-    "totalFiles": 21,
-    "totalIssues": 43,
+    "totalFiles": 33,
+    "totalIssues": 14,
     "issuesBySeverity": {
+      "info": 0,
       "error": 0,
-      "warning": 38,
-      "info": 5
+      "warning": 14
     },
-    "averageComplexity": 4.063768115942029,
+    "averageComplexity": 3.5916230366492146,
     "maxComplexity": {
-      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/pdfua.rs",
-      "function": "non_heading_pdf_name",
-      "complexity": 16
+      "file": "/Users/o6lvl4/workspace/github.com/O6lvl4/pagina/crates/pagina-core/src/style/ua.rs",
+      "function": "apply_block_entry",
+      "complexity": 13
     }
   },
   "score": {
-    "overall": 81,
-    "grade": "B",
+    "overall": 95,
+    "grade": "A",
     "distribution": {
-      "B": 3,
-      "C": 2,
-      "D": 0,
-      "A": 16,
-      "F": 0
+      "B": 0,
+      "A": 33,
+      "C": 0,
+      "F": 0,
+      "D": 0
     }
   }
 }

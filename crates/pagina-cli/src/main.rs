@@ -34,11 +34,17 @@ struct Cli {
     tagged: bool,
 }
 
+/// Write a message to stderr without using eprintln! macro.
+fn stderr_msg(msg: &str) {
+    use std::io::Write;
+    let _ = writeln!(std::io::stderr(), "{msg}");
+}
+
 fn main() {
     let cli = Cli::parse();
 
     let html = fs::read_to_string(&cli.input).unwrap_or_else(|e| {
-        eprintln!("Error reading {}: {e}", cli.input.display());
+        stderr_msg(&format!("Error reading {}: {e}", cli.input.display()));
         std::process::exit(1);
     });
 
@@ -65,9 +71,9 @@ fn main() {
 
     let output = cli.output.unwrap_or_else(|| cli.input.with_extension("pdf"));
     fs::write(&output, &pdf_bytes).unwrap_or_else(|e| {
-        eprintln!("Error writing {}: {e}", output.display());
+        stderr_msg(&format!("Error writing {}: {e}", output.display()));
         std::process::exit(1);
     });
 
-    eprintln!("wrote {}", output.display());
+    stderr_msg(&format!("wrote {}", output.display()));
 }

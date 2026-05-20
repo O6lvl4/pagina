@@ -49,19 +49,24 @@ pub struct MarginBox {
     pub text_align: Option<TextAlign>,
 }
 
+/// Lookup table for named page sizes in mm (width, height in portrait).
+const PAGE_SIZE_TABLE: &[(&str, f64, f64)] = &[
+    ("a3", 297.0, 420.0),
+    ("a4", 210.0, 297.0),
+    ("a5", 148.0, 210.0),
+    ("b4", 250.0, 353.0),
+    ("b5", 176.0, 250.0),
+    ("letter", 215.9, 279.4),
+    ("legal", 215.9, 355.6),
+    ("ledger", 279.4, 431.8),
+];
+
 /// Named page sizes in mm (width, height in portrait).
 pub fn named_page_size(name: &str) -> Option<(f64, f64)> {
-    Some(match name.to_ascii_lowercase().as_str() {
-        "a3" => (297.0, 420.0),
-        "a4" => (210.0, 297.0),
-        "a5" => (148.0, 210.0),
-        "b4" => (250.0, 353.0),
-        "b5" => (176.0, 250.0),
-        "letter" => (215.9, 279.4),
-        "legal" => (215.9, 355.6),
-        "ledger" => (279.4, 431.8),
-        _ => return None,
-    })
+    let lower = name.to_ascii_lowercase();
+    PAGE_SIZE_TABLE.iter()
+        .find(|(n, _, _)| *n == lower)
+        .map(|(_, w, h)| (*w, *h))
 }
 
 /// A parsed CSS rule: selector(s) + declarations.
@@ -147,9 +152,7 @@ impl Selector {
     /// `ancestors` is ordered from closest parent to root.
     pub fn matches(
         &self,
-        tag: &str,
-        id: &Option<String>,
-        classes: &[String],
+        elem: &MatchTarget,
         ancestors: &[AncestorInfo],
     ) -> bool {
         let n = self.parts.len();
@@ -158,7 +161,7 @@ impl Selector {
         }
 
         // Subject must match
-        if !self.parts[n - 1].1.matches(tag, id, classes) {
+        if !self.parts[n - 1].1.matches(&elem.tag, &elem.id, &elem.classes) {
             return false;
         }
 
@@ -215,6 +218,13 @@ pub struct AncestorInfo {
     pub tag: String,
     pub id: Option<String>,
     pub classes: Vec<String>,
+}
+
+/// Target element for selector matching.
+pub struct MatchTarget<'a> {
+    pub tag: &'a str,
+    pub id: &'a Option<String>,
+    pub classes: &'a [String],
 }
 
 /// A single CSS declaration.
