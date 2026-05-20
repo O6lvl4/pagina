@@ -1,46 +1,53 @@
 [document]
-title = "Gyomu Itaku Keiyakusho"
-date = "2026-nen 5-gatsu 20-nichi"
+title = "業務委託契約書"
+date = "令和8年5月20日"
 
-[parties.KOU]
-name = "Kabushikigaisha Example"
-address = "Tokyo-to Shibuya-ku Shibuya 1-2-3"
-representative = "Daihyou Torishimariyaku Satou Ichirou"
+[parties."甲"]
+name = "株式会社Example"
+address = "東京都渋谷区渋谷一丁目2番3号"
+representative = "代表取締役 佐藤一郎"
 
-[parties.OTSU]
-name = "Yamada Tarou"
-address = "Tokyo-to Shinjuku-ku Shinjuku 4-5-6"
-
-[[clauses]]
-title = "Mokuteki"
-body = "<p>KOU wa OTSU ni taishi, ika no gyoumu wo itaku shi, OTSU wa kore wo jutaku suru.</p><p>Gyoumu naiyou: Software kaihatsu gyoumu</p>"
+[parties."乙"]
+name = "山田太郎"
+address = "東京都新宿区新宿四丁目5番6号"
 
 [[clauses]]
-title = "Keiyaku kikan"
-body = "<p>Hon keiyaku no yuukou kikan wa, 2026-nen 6-gatsu 1-nichi kara 2027-nen 5-gatsu 31-nichi made to suru.</p>"
+title = "目的"
+template = "purpose"
+[clauses.params]
+"業務内容" = "ソフトウェア開発業務"
 
 [[clauses]]
-title = "Houshuu"
-body = "<p>KOU wa OTSU ni taishi, hon gyoumu no taika toshite ika no houshuu wo shiharau.</p><ul><li>Houshuu-gaku: 500,000-en (zeibetsu)</li><li>Shiharai kijitsu: Yokugetsu matsujitsu</li></ul>"
+title = "契約期間"
+template = "period"
+[clauses.params]
+"開始日" = "令和8年6月1日"
+"終了日" = "令和9年5月31日"
 
 [[clauses]]
-title = "Himitsu hoji"
+title = "報酬"
+template = "payment"
+[clauses.params]
+"金額" = "500,000"
+
+[[clauses]]
+title = "秘密保持"
 template = "confidentiality"
 
 [[clauses]]
-title = "Chiteki zaisan kenri"
+title = "知的財産権"
 template = "ip-rights"
 
 [[clauses]]
-title = "Kaijo"
+title = "解除"
 template = "termination"
 
 [[clauses]]
-title = "Songai baishoo"
+title = "損害賠償"
 template = "damages"
 
 [[clauses]]
-title = "Junkyohou"
+title = "準拠法及び管轄"
 template = "governing-law"
 
 [signature]

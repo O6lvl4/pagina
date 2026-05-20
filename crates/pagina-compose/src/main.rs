@@ -130,7 +130,11 @@ fn build_header(def: &DocumentDef) -> String {
 }
 
 fn build_preamble(def: &DocumentDef) -> String {
-    let party_names: Vec<String> = def.parties.iter()
+    // Sort parties so 甲 comes before 乙 (alphabetical order of keys)
+    let mut parties: Vec<(&String, &Party)> = def.parties.iter().collect();
+    parties.sort_by(|(a, _), (b, _)| contract_party_order(a).cmp(&contract_party_order(b)));
+
+    let party_names: Vec<String> = parties.iter()
         .map(|(role, p)| format!("{}（以下「{}」という）", p.name, role))
         .collect();
 
@@ -230,7 +234,7 @@ fn build_signature(def: &DocumentDef, sig: &SignatureDef) -> String {
     }
 
     let mut parties: Vec<(&String, &Party)> = def.parties.iter().collect();
-    parties.sort_by(|(a, _), (b, _)| a.cmp(b));
+    parties.sort_by(|(a, _), (b, _)| contract_party_order(a).cmp(&contract_party_order(b)));
 
     for (role, party) in &parties {
         // Each field is a separate <p> with no wrapper div
@@ -364,6 +368,18 @@ fn ensure_fonts(templates_dir: &Path) -> Vec<PathBuf> {
     }
 
     paths
+}
+
+/// Sort order for Japanese contract parties: 甲=0, 乙=1, 丙=2, then alphabetical.
+fn contract_party_order(name: &str) -> (u8, String) {
+    let priority = match name {
+        "甲" => 0,
+        "乙" => 1,
+        "丙" => 2,
+        "丁" => 3,
+        _ => 10,
+    };
+    (priority, name.to_string())
 }
 
 fn download_file(url: &str, dest: &Path) -> bool {
