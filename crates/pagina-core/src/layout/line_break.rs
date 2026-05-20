@@ -55,17 +55,31 @@ impl<'a> WordCollector<'a> {
         let resolved = self.fm.resolve(&style.font_family, style.font_weight, style.font_style);
         let metrics = self.fm.metrics(&resolved);
 
-        for segment in text.split_inclusive(' ') {
-            let word_part = segment.trim_end_matches(' ');
-            if !word_part.is_empty() {
-                let width = metrics.text_width_mm(word_part, style.font_size_pt);
-                self.words.push(StyledWord { text: word_part.to_string(), style: style.clone(), width_mm: width });
-            }
-            if segment.ends_with(' ') {
+        // Split into segments: spaces, CJK runs (char-by-char), and Latin words
+        let mut current_word = String::new();
+        for ch in text.chars() {
+            if ch == ' ' {
+                self.flush_word(&mut current_word, &style, metrics);
                 let sw = metrics.space_width_mm(style.font_size_pt);
                 self.words.push(StyledWord { text: " ".to_string(), style: style.clone(), width_mm: sw });
+            } else if is_cjk(ch) {
+                self.flush_word(&mut current_word, &style, metrics);
+                // Each CJK character is a breakable unit
+                let w = metrics.text_width_mm(&ch.to_string(), style.font_size_pt);
+                self.words.push(StyledWord { text: ch.to_string(), style: style.clone(), width_mm: w });
+            } else {
+                current_word.push(ch);
             }
         }
+        self.flush_word(&mut current_word, &style, metrics);
+    }
+
+    fn flush_word(&mut self, word: &mut String, style: &InlineStyle, metrics: &crate::font::FontMetrics) {
+        if word.is_empty() {
+            return;
+        }
+        let w = metrics.text_width_mm(word, style.font_size_pt);
+        self.words.push(StyledWord { text: std::mem::take(word), style: style.clone(), width_mm: w });
     }
 
     fn collect_element(&mut self, child_node: &StyledNode, parent_style: &ComputedStyle) {
@@ -208,7 +222,13 @@ impl LineBreaker {
 
     fn try_merge_with_previous(&mut self, word: &StyledWord) -> bool {
         let Some(last) = self.current_segments.last_mut() else { return false };
-        if !last.style.same_as(&word.style) || !last.text.ends_with(' ') {
+        if !last.style.same_as(&word.style) {
+            return false;
+        }
+        // Merge if previous ends with space, or if this word is CJK (no space needed)
+        let is_cjk_word = word.text.chars().next().map_or(false, is_cjk);
+        let prev_ends_cjk = last.text.chars().last().map_or(false, is_cjk);
+        if !last.text.ends_with(' ') && !is_cjk_word && !prev_ends_cjk {
             return false;
         }
         last.text.push_str(&word.text);
@@ -258,4 +278,27 @@ pub(super) fn emit_line_segments(segments: &[LineSegment], y: f64, x_offset: f64
             seg.x_mm + x_offset, y, seg.text.clone(), &seg.style,
         ));
     }
+}
+
+/// Detect CJK characters that allow line breaking at character boundaries.
+fn is_cjk(ch: char) -> bool {
+    let cp = ch as u32;
+    // CJK Unified Ideographs
+    (0x4E00..=0x9FFF).contains(&cp)
+    // CJK Extension A
+    || (0x3400..=0x4DBF).contains(&cp)
+    // CJK Compatibility Ideographs
+    || (0xF900..=0xFAFF).contains(&cp)
+    // Hiragana
+    || (0x3040..=0x309F).contains(&cp)
+    // Katakana
+    || (0x30A0..=0x30FF).contains(&cp)
+    // CJK Symbols and Punctuation
+    || (0x3000..=0x303F).contains(&cp)
+    // Fullwidth Forms
+    || (0xFF00..=0xFFEF).contains(&cp)
+    // Halfwidth Katakana
+    || (0xFF65..=0xFF9F).contains(&cp)
+    // CJK Extension B+
+    || (0x20000..=0x2A6DF).contains(&cp)
 }
