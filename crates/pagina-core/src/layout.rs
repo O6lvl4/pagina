@@ -14,6 +14,32 @@ pub struct Page {
     pub items: Vec<LayoutItem>,
     pub footnotes: Vec<LayoutItem>,
     pub margin_boxes: Vec<ResolvedMarginBox>,
+    pub bookmarks: Vec<Bookmark>,
+    pub links: Vec<LinkAnnotation>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Bookmark {
+    pub title: String,
+    pub level: u8,
+    pub y_mm: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct LinkAnnotation {
+    pub x_mm: f64,
+    pub y_mm: f64,
+    pub width_mm: f64,
+    pub height_mm: f64,
+    pub target: LinkTarget,
+}
+
+#[derive(Debug, Clone)]
+pub enum LinkTarget {
+    /// External URL
+    Uri(String),
+    /// Internal link to element ID (page resolved later)
+    Internal(String),
 }
 
 #[derive(Debug, Clone)]
@@ -139,7 +165,7 @@ impl<'a> LayoutState<'a> {
             fm,
             content_width_mm: cw,
             content_height_mm: ch,
-            pages: vec![Page { items: Vec::new(), footnotes: Vec::new(), margin_boxes: Vec::new() }],
+            pages: vec![Page { items: Vec::new(), footnotes: Vec::new(), margin_boxes: Vec::new(), bookmarks: Vec::new(), links: Vec::new() }],
             current_y: 0.0,
             running_strings: HashMap::new(),
             footnotes_pending: Vec::new(),
@@ -152,7 +178,7 @@ impl<'a> LayoutState<'a> {
 
     fn new_page(&mut self) {
         self.flush_footnotes();
-        self.pages.push(Page { items: Vec::new(), footnotes: Vec::new(), margin_boxes: Vec::new() });
+        self.pages.push(Page { items: Vec::new(), footnotes: Vec::new(), margin_boxes: Vec::new(), bookmarks: Vec::new(), links: Vec::new() });
         self.current_y = 0.0;
         self.footnote_area_height = 0.0;
     }
@@ -282,7 +308,7 @@ fn resolve_content(
     page_num: usize,
     total_pages: usize,
     running_strings: &HashMap<String, String>,
-    id_to_page: &HashMap<String, usize>,
+    _id_to_page: &HashMap<String, usize>,
 ) -> String {
     let mut out = String::new();
     for item in items {
@@ -660,6 +686,19 @@ fn lay_out_block(node: &StyledNode, state: &mut LayoutState) {
 
     state.current_y += style.margin_top_mm + style.padding_top_mm;
 
+    // Collect bookmark for headings
+    if matches!(node.tag.as_str(), "h1" | "h2" | "h3" | "h4" | "h5" | "h6") {
+        let level = node.tag.as_bytes()[1] - b'0';
+        let title = collect_text_content(node).trim().to_string();
+        if !title.is_empty() {
+            state.pages.last_mut().unwrap().bookmarks.push(Bookmark {
+                title,
+                level,
+                y_mm: state.current_y,
+            });
+        }
+    }
+
     if has_text {
         let default_lh = state.fm.metrics(
             &state.fm.resolve(&style.font_family, style.font_weight, style.font_style)
@@ -714,6 +753,9 @@ fn lay_out_block(node: &StyledNode, state: &mut LayoutState) {
         });
         state.current_y += style.border_bottom_width_mm + 0.5;
     }
+
+    // Collect link annotations from <a> children
+    collect_links_from_node(node, state);
 
     state.current_y += style.padding_bottom_mm + style.margin_bottom_mm;
 }
@@ -1012,6 +1054,36 @@ fn lay_out_math(node: &StyledNode, state: &mut LayoutState) {
     }
 
     state.current_y += lh + node.style.margin_bottom_mm;
+}
+
+fn collect_links_from_node(node: &StyledNode, state: &mut LayoutState) {
+    if node.tag == "a" {
+        if let Some(href) = node.attrs.iter().find(|(k, _)| k == "href").map(|(_, v)| v.clone()) {
+            let text = collect_text_content(node);
+            let resolved = state.fm.resolve(&node.style.font_family, node.style.font_weight, node.style.font_style);
+            let text_width = state.fm.metrics(&resolved).text_width_mm(&text.trim(), node.style.font_size_pt);
+            let lh = node.style.font_size_pt * node.style.line_height * 25.4 / 72.0;
+
+            let target = if href.starts_with('#') {
+                LinkTarget::Internal(href[1..].to_string())
+            } else {
+                LinkTarget::Uri(href)
+            };
+
+            state.pages.last_mut().unwrap().links.push(LinkAnnotation {
+                x_mm: 0.0,
+                y_mm: state.current_y - lh,
+                width_mm: text_width.min(state.content_width_mm),
+                height_mm: lh,
+                target,
+            });
+        }
+    }
+    for child in &node.children {
+        if let StyledContent::Element(child_node) = child {
+            collect_links_from_node(child_node, state);
+        }
+    }
 }
 
 fn collect_text_content(node: &StyledNode) -> String {

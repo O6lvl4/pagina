@@ -48,6 +48,13 @@ pub fn render(
 
     doc.with_pages(pdf_pages);
 
+    // Add bookmarks from all pages
+    for (page_idx, page) in pages.iter().enumerate() {
+        for bm in &page.bookmarks {
+            doc.add_bookmark(&bm.title, page_idx);
+        }
+    }
+
     let mut warnings = Vec::new();
     doc.save(&PdfSaveOptions::default(), &mut warnings)
 }
@@ -81,6 +88,35 @@ fn build_page_ops(
     render_items(&mut ops, style, &page.items, fm, image_ids);
     render_items(&mut ops, style, &page.footnotes, fm, image_ids);
     render_margin_boxes(&mut ops, style, &page.margin_boxes, fm);
+
+    // Link annotations
+    for link in &page.links {
+        let x = (style.margin_left_mm + link.x_mm) as f32;
+        let y_bottom = (style.height_mm - style.margin_top_mm - link.y_mm - link.height_mm) as f32;
+        let rect = printpdf::Rect::from_xywh(
+            Pt(x * 72.0 / 25.4),
+            Pt(y_bottom * 72.0 / 25.4),
+            Pt(link.width_mm as f32 * 72.0 / 25.4),
+            Pt(link.height_mm as f32 * 72.0 / 25.4),
+        );
+        let actions = match &link.target {
+            crate::layout::LinkTarget::Uri(url) => printpdf::Actions::Uri(url.clone()),
+            crate::layout::LinkTarget::Internal(_id) => {
+                // For internal links, we'd need to resolve page number.
+                // Use page 0 as fallback; lopdf post-processing can fix this.
+                printpdf::Actions::Goto(printpdf::Destination::Xyz {
+                    page: 0,
+                    left: None,
+                    top: None,
+                    zoom: None,
+                })
+            }
+        };
+        ops.push(Op::LinkAnnotation {
+            link: printpdf::LinkAnnotation::new(rect, actions, None, None, None),
+        });
+    }
+
     ops
 }
 

@@ -428,28 +428,71 @@ fn parse_selector_list(text: &str) -> Vec<Selector> {
             if s.is_empty() {
                 return None;
             }
-            if s == "*" {
-                return Some(Selector::Universal);
-            }
-            if let Some(id) = s.strip_prefix('#') {
-                return Some(Selector::Id(id.to_owned()));
-            }
-            if let Some(class) = s.strip_prefix('.') {
-                return Some(Selector::Class(class.to_owned()));
-            }
-            // tag.class
-            if let Some((tag, class)) = s.split_once('.') {
-                if !tag.is_empty() && !class.is_empty() {
-                    return Some(Selector::TypeAndClass(
-                        tag.to_ascii_lowercase(),
-                        class.to_owned(),
-                    ));
-                }
-            }
-            // plain tag
-            Some(Selector::Type(s.to_ascii_lowercase()))
+            Some(parse_compound_selector(s))
         })
         .collect()
+}
+
+/// Parse a single compound selector (e.g. ".toc > a", "table td.highlight").
+fn parse_compound_selector(text: &str) -> Selector {
+    // Tokenize: split by whitespace and `>`, preserving `>` as a token
+    let mut tokens: Vec<&str> = Vec::new();
+    let mut rest = text.trim();
+    while !rest.is_empty() {
+        rest = rest.trim_start();
+        if rest.starts_with('>') {
+            tokens.push(">");
+            rest = &rest[1..];
+        } else {
+            let end = rest.find(|c: char| c.is_whitespace() || c == '>').unwrap_or(rest.len());
+            if end > 0 {
+                tokens.push(&rest[..end]);
+                rest = &rest[end..];
+            } else {
+                break;
+            }
+        }
+    }
+
+    let mut parts = Vec::new();
+    let mut next_combinator = Combinator::Descendant;
+
+    for token in &tokens {
+        if *token == ">" {
+            next_combinator = Combinator::Child;
+            continue;
+        }
+        let simple = parse_simple_selector(token);
+        parts.push((next_combinator, simple));
+        next_combinator = Combinator::Descendant;
+    }
+
+    if parts.is_empty() {
+        Selector::simple(SimpleSelector::Universal)
+    } else if parts.len() == 1 {
+        Selector::simple(parts.pop().unwrap().1)
+    } else {
+        Selector { parts }
+    }
+}
+
+fn parse_simple_selector(s: &str) -> SimpleSelector {
+    if s == "*" {
+        return SimpleSelector::Universal;
+    }
+    if let Some(id) = s.strip_prefix('#') {
+        return SimpleSelector::Id(id.to_owned());
+    }
+    if let Some(class) = s.strip_prefix('.') {
+        return SimpleSelector::Class(class.to_owned());
+    }
+    // tag.class
+    if let Some((tag, class)) = s.split_once('.') {
+        if !tag.is_empty() && !class.is_empty() {
+            return SimpleSelector::TypeAndClass(tag.to_ascii_lowercase(), class.to_owned());
+        }
+    }
+    SimpleSelector::Type(s.to_ascii_lowercase())
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -854,8 +897,8 @@ mod tests {
             &mut rules,
         );
         assert_eq!(rules.len(), 2);
-        assert!(matches!(&rules[0].selectors[0], Selector::Type(t) if t == "h1"));
-        assert!(matches!(&rules[1].selectors[0], Selector::Class(c) if c == "note"));
+        assert!(matches!(rules[0].selectors[0].subject(), SimpleSelector::Type(t) if t == "h1"));
+        assert!(matches!(rules[1].selectors[0].subject(), SimpleSelector::Class(c) if c == "note"));
     }
 
     #[test]

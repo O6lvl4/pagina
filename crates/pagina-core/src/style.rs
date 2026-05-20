@@ -1,7 +1,7 @@
 use markup5ever_rcdom::{Handle, NodeData};
 
 use crate::css::values::*;
-use crate::css::{CssRule, Declaration, Selector};
+use crate::css::{AncestorInfo, CssRule, Declaration};
 use crate::css::parser;
 
 // ═══════════════════════════════════════════════════════════════
@@ -178,19 +178,20 @@ pub enum StyledContent {
 
 /// Build a styled tree from a DOM handle + CSS rules.
 pub fn build_styled_tree(handle: &Handle, rules: &[CssRule]) -> Option<StyledNode> {
-    build_styled_node(handle, rules, &ComputedStyle::default())
+    build_styled_node(handle, rules, &ComputedStyle::default(), &[])
 }
 
 fn build_styled_node(
     handle: &Handle,
     rules: &[CssRule],
     parent_style: &ComputedStyle,
+    ancestors: &[AncestorInfo],
 ) -> Option<StyledNode> {
     match &handle.data {
         NodeData::Document => {
             let mut children = Vec::new();
             for child in handle.children.borrow().iter() {
-                if let Some(node) = build_styled_node(child, rules, parent_style) {
+                if let Some(node) = build_styled_node(child, rules, parent_style, ancestors) {
                     children.push(StyledContent::Element(node));
                 } else if let NodeData::Text { contents } = &child.data {
                     let text = contents.borrow().to_string();
@@ -255,8 +256,9 @@ fn build_styled_node(
             let mut matched: Vec<(u16, u16, u16, usize, &[Declaration])> = Vec::new();
             for (i, rule) in rules.iter().enumerate() {
                 for sel in &rule.selectors {
-                    if selector_matches(sel, &tag, &id, &classes) {
-                        matched.push((sel.specificity().0, sel.specificity().1, sel.specificity().2, i, &rule.declarations));
+                    if sel.matches(&tag, &id, &classes, ancestors) {
+                        let s = sel.specificity();
+                        matched.push((s.0, s.1, s.2, i, &rule.declarations));
                     }
                 }
             }
@@ -281,7 +283,14 @@ fn build_styled_node(
                 return None;
             }
 
-            // Build children
+            // Build children — push current element onto ancestor chain
+            let mut child_ancestors = vec![AncestorInfo {
+                tag: tag.clone(),
+                id: id.clone(),
+                classes: classes.clone(),
+            }];
+            child_ancestors.extend_from_slice(ancestors);
+
             let mut children = Vec::new();
             for child in handle.children.borrow().iter() {
                 match &child.data {
@@ -292,7 +301,7 @@ fn build_styled_node(
                         }
                     }
                     NodeData::Element { .. } => {
-                        if let Some(child_node) = build_styled_node(child, rules, &style) {
+                        if let Some(child_node) = build_styled_node(child, rules, &style, &child_ancestors) {
                             children.push(StyledContent::Element(child_node));
                         }
                     }
@@ -321,21 +330,6 @@ fn inherit_font_size(element: &ComputedStyle, parent: &ComputedStyle) -> f64 {
         element.font_size_pt
     } else {
         parent.font_size_pt
-    }
-}
-
-fn selector_matches(
-    sel: &Selector,
-    tag: &str,
-    id: &Option<String>,
-    classes: &[String],
-) -> bool {
-    match sel {
-        Selector::Universal => true,
-        Selector::Type(t) => t == tag,
-        Selector::Class(c) => classes.iter().any(|cl| cl == c),
-        Selector::Id(i) => id.as_deref() == Some(i.as_str()),
-        Selector::TypeAndClass(t, c) => t == tag && classes.iter().any(|cl| cl == c),
     }
 }
 

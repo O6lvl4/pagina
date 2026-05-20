@@ -71,31 +71,147 @@ pub struct CssRule {
     pub declarations: Vec<Declaration>,
 }
 
-/// Simple CSS selector.
+/// A simple selector (matches a single element).
 #[derive(Debug, Clone)]
-pub enum Selector {
-    /// `*`
+pub enum SimpleSelector {
     Universal,
-    /// `h1`, `p`, etc.
     Type(String),
-    /// `.classname`
     Class(String),
-    /// `#id`
     Id(String),
-    /// `tag.class`
     TypeAndClass(String, String),
 }
 
-impl Selector {
+impl SimpleSelector {
     pub fn specificity(&self) -> (u16, u16, u16) {
         match self {
-            Selector::Universal => (0, 0, 0),
-            Selector::Type(_) => (0, 0, 1),
-            Selector::Class(_) => (0, 1, 0),
-            Selector::Id(_) => (1, 0, 0),
-            Selector::TypeAndClass(_, _) => (0, 1, 1),
+            SimpleSelector::Universal => (0, 0, 0),
+            SimpleSelector::Type(_) => (0, 0, 1),
+            SimpleSelector::Class(_) => (0, 1, 0),
+            SimpleSelector::Id(_) => (1, 0, 0),
+            SimpleSelector::TypeAndClass(_, _) => (0, 1, 1),
         }
     }
+
+    pub fn matches(&self, tag: &str, id: &Option<String>, classes: &[String]) -> bool {
+        match self {
+            SimpleSelector::Universal => true,
+            SimpleSelector::Type(t) => t == tag,
+            SimpleSelector::Class(c) => classes.iter().any(|cl| cl == c),
+            SimpleSelector::Id(i) => id.as_deref() == Some(i.as_str()),
+            SimpleSelector::TypeAndClass(t, c) => t == tag && classes.iter().any(|cl| cl == c),
+        }
+    }
+}
+
+/// Combinator between simple selectors.
+#[derive(Debug, Clone, Copy)]
+pub enum Combinator {
+    /// ` ` (descendant)
+    Descendant,
+    /// `>` (child)
+    Child,
+}
+
+/// A compound selector: a chain of simple selectors joined by combinators.
+/// Read right-to-left: the last element is the subject.
+#[derive(Debug, Clone)]
+pub struct Selector {
+    /// Chain of (combinator, simple_selector) pairs, from outermost ancestor to subject.
+    /// The first entry has a dummy Descendant combinator (ignored).
+    pub parts: Vec<(Combinator, SimpleSelector)>,
+}
+
+impl Selector {
+    /// Create a simple (single-element) selector.
+    pub fn simple(s: SimpleSelector) -> Self {
+        Self { parts: vec![(Combinator::Descendant, s)] }
+    }
+
+    pub fn specificity(&self) -> (u16, u16, u16) {
+        let mut a = 0u16;
+        let mut b = 0u16;
+        let mut c = 0u16;
+        for (_, s) in &self.parts {
+            let (sa, sb, sc) = s.specificity();
+            a += sa;
+            b += sb;
+            c += sc;
+        }
+        (a, b, c)
+    }
+
+    /// The subject (rightmost) simple selector.
+    pub fn subject(&self) -> &SimpleSelector {
+        &self.parts.last().unwrap().1
+    }
+
+    /// Match this selector against an element with its ancestor chain.
+    /// `ancestors` is ordered from closest parent to root.
+    pub fn matches(
+        &self,
+        tag: &str,
+        id: &Option<String>,
+        classes: &[String],
+        ancestors: &[AncestorInfo],
+    ) -> bool {
+        let n = self.parts.len();
+        if n == 0 {
+            return false;
+        }
+
+        // Subject must match
+        if !self.parts[n - 1].1.matches(tag, id, classes) {
+            return false;
+        }
+
+        if n == 1 {
+            return true;
+        }
+
+        // Walk the ancestor chain for remaining parts (right-to-left)
+        let mut ancestor_idx = 0;
+        for part_idx in (0..n - 1).rev() {
+            let (combinator, ref simple) = self.parts[part_idx];
+            match combinator {
+                Combinator::Child => {
+                    // Must match the immediate parent
+                    if ancestor_idx >= ancestors.len() {
+                        return false;
+                    }
+                    let anc = &ancestors[ancestor_idx];
+                    if !simple.matches(&anc.tag, &anc.id, &anc.classes) {
+                        return false;
+                    }
+                    ancestor_idx += 1;
+                }
+                Combinator::Descendant => {
+                    // Search up the ancestor chain for a match
+                    let mut found = false;
+                    while ancestor_idx < ancestors.len() {
+                        let anc = &ancestors[ancestor_idx];
+                        ancestor_idx += 1;
+                        if simple.matches(&anc.tag, &anc.id, &anc.classes) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if !found {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        true
+    }
+}
+
+/// Info about an ancestor element, for selector matching.
+#[derive(Debug, Clone)]
+pub struct AncestorInfo {
+    pub tag: String,
+    pub id: Option<String>,
+    pub classes: Vec<String>,
 }
 
 /// A single CSS declaration.
