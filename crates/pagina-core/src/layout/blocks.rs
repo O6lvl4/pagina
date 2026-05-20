@@ -109,16 +109,6 @@ fn lay_out_block(node: &StyledNode, state: &mut LayoutState) {
 
     state.current_y += style.margin_top_mm + style.padding_top_mm;
 
-    // Heading orphan control: keep heading + at least 1 body line together
-    if matches!(node.tag.as_str(), "h3" | "h4" | "h5" | "h6") {
-        let heading_lh = style.font_size_pt * style.line_height * 25.4 / 72.0;
-        let body_lh = 11.0 * 1.4 * 25.4 / 72.0;
-        let min_needed = heading_lh + body_lh + style.margin_bottom_mm;
-        if state.available_height() < min_needed && state.current_page_has_items() {
-            state.new_page();
-        }
-    }
-
     emit_heading_bookmark(node, state);
 
     if has_text {
@@ -191,11 +181,7 @@ fn lay_out_simple_text(text: &str, style: &ComputedStyle, state: &mut LayoutStat
 
     let lines = break_into_lines(&words, state.content_width_mm, lh);
     for line in &lines {
-        if state.current_y + line.max_line_height_mm > state.content_height_mm
-            && state.current_page_has_items()
-        {
-            state.new_page();
-        }
+        state.ensure_space(line.max_line_height_mm);
         let y = state.current_y;
         let items = &mut state.current_page_mut().items;
         emit_line_segments(&line.segments, y, 0.0, items);

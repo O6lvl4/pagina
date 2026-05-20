@@ -92,9 +92,7 @@ pub(super) fn lay_out_table(node: &StyledNode, state: &mut LayoutState) {
     let row_ctx = TableRowContext { col_width, cell_padding, style: &node.style };
 
     for (row_idx, row) in rows.iter().enumerate() {
-        if state.current_y + row_height > state.content_height_mm {
-            state.new_page();
-        }
+        state.ensure_space(row_height);
         let is_hdr = is_header.get(row_idx).copied().unwrap_or(false);
         emit_table_row(row, is_hdr, &row_ctx, state);
         state.current_y += row_height;

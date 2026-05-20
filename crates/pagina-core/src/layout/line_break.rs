@@ -303,13 +303,12 @@ pub(super) fn emit_line_segments(segments: &[LineSegment], y: f64, x_offset: f64
 }
 
 /// Characters that must not appear at the start of a line (行頭禁則).
+/// Only fullwidth/CJK punctuation — ASCII punctuation is left to normal word wrap.
 fn is_no_break_before(ch: char) -> bool {
     matches!(ch,
-        ')' | ']' | '}' | '>' |
         '）' | '」' | '』' | '】' | '〉' | '》' | '〕' | '｝' | '］' |
         '。' | '、' | '，' | '．' | '！' | '？' | '：' | '；' |
-        'ー' | '…' | '‥' |
-        '!' | '?' | ',' | '.' | ':' | ';'
+        'ー' | '…' | '‥'
     )
 }
 

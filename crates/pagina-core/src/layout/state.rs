@@ -79,7 +79,7 @@ impl<'a> LayoutState<'a> {
     }
 
     pub(super) fn ensure_space(&mut self, height_needed: f64) {
-        if self.current_y + height_needed > self.available_height() && self.current_page_has_items() {
+        if height_needed > self.available_height() && self.current_page_has_items() {
             self.new_page();
         }
     }
