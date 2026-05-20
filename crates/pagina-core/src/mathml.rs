@@ -12,7 +12,7 @@
 /// - <msqrt> square root
 
 use crate::css::values::*;
-use crate::font::FontManager;
+use crate::font::FontProvider;
 use crate::layout::LayoutItem;
 use crate::layout::ItemKind;
 use crate::style::{StyledContent, StyledNode};
@@ -21,7 +21,7 @@ use crate::style::{StyledContent, StyledNode};
 pub fn render_math(
     node: &StyledNode,
     base_font_size: f64,
-    fm: &FontManager,
+    fm: &dyn FontProvider,
 ) -> Vec<LayoutItem> {
     let style = MathStyle {
         font_size: base_font_size,
@@ -34,7 +34,7 @@ pub fn render_math(
 }
 
 /// Width of a <math> element in mm.
-pub fn math_width(node: &StyledNode, base_font_size: f64, fm: &FontManager) -> f64 {
+pub fn math_width(node: &StyledNode, base_font_size: f64, fm: &dyn FontProvider) -> f64 {
     let items = render_math(node, base_font_size, fm);
     items
         .iter()
@@ -73,7 +73,7 @@ struct CenteredTextParams<'a> {
 struct MathContext<'a> {
     items: Vec<LayoutItem>,
     x: f64,
-    fm: &'a FontManager,
+    fm: &'a dyn FontProvider,
 }
 
 impl<'a> MathContext<'a> {
@@ -254,7 +254,7 @@ fn collect_all_text(node: &StyledNode) -> String {
     s
 }
 
-fn measure_item_width(item: &LayoutItem, fm: &FontManager) -> f64 {
+fn measure_item_width(item: &LayoutItem, fm: &dyn FontProvider) -> f64 {
     if item.text.is_empty() {
         if let ItemKind::HorizontalRule { width_mm, .. } = &item.kind {
             return *width_mm;

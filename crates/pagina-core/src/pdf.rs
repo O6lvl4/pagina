@@ -5,13 +5,13 @@ use printpdf::{
 
 use crate::css::values::{Color, FontStyle, FontWeight, MarginBoxPosition, TextAlign};
 use crate::css::PageStyle;
-use crate::font::FontManager;
+use crate::font::{FontProvider, FontManager};
 use crate::layout::{ItemKind, LoadedImage, Page, ResolvedMarginBox};
 
 /// Context for building page operations.
 struct RenderContext<'a> {
     style: &'a PageStyle,
-    fm: &'a FontManager,
+    fm: &'a dyn FontProvider,
     image_ids: &'a [XObjectId],
 }
 
@@ -120,7 +120,7 @@ fn render_text_item(
     ops: &mut Vec<Op>,
     style: &PageStyle,
     item: &crate::layout::LayoutItem,
-    fm: &FontManager,
+    fm: &dyn FontProvider,
 ) {
     let x = (style.margin_left_mm + item.x_mm) as f32;
     let y = (style.height_mm - style.margin_top_mm - item.y_mm

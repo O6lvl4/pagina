@@ -4,7 +4,7 @@ use std::collections::HashMap;
 
 use crate::css::values::*;
 use crate::css::PageStyleSet;
-use crate::font::FontManager;
+use crate::font::FontProvider;
 
 use super::{Page, LayoutItem, ItemKind, LoadedImage, InlineStyle};
 use super::content;
@@ -17,7 +17,7 @@ pub(super) struct FootnoteData {
 
 pub(super) struct LayoutState<'a> {
     pub(super) page_styles: PageStyleSet,
-    pub(super) fm: &'a FontManager,
+    pub(super) fm: &'a dyn FontProvider,
     pub(super) content_width_mm: f64,
     pub(super) content_height_mm: f64,
 
@@ -36,7 +36,7 @@ pub(super) struct LayoutState<'a> {
 }
 
 impl<'a> LayoutState<'a> {
-    pub(super) fn new(page_styles: PageStyleSet, fm: &'a FontManager) -> Self {
+    pub(super) fn new(page_styles: PageStyleSet, fm: &'a dyn FontProvider) -> Self {
         let cw = page_styles.base.content_width_mm();
         let ch = page_styles.base.content_height_mm();
         Self {

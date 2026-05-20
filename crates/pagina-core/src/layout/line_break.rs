@@ -1,7 +1,7 @@
 //! Line breaking and inline word collection.
 
 use crate::css::values::*;
-use crate::font::FontManager;
+use crate::font::FontProvider;
 use crate::style::{ComputedStyle, StyledContent, StyledNode};
 
 use super::{LayoutItem, InlineStyle, StyledWord};
@@ -30,14 +30,14 @@ pub(super) struct LineSegment {
 
 /// Collector context for inline word gathering.
 pub(super) struct WordCollector<'a> {
-    fm: &'a FontManager,
+    fm: &'a dyn FontProvider,
     pub(super) words: Vec<StyledWord>,
     pub(super) footnotes: Vec<(String, InlineStyle)>,
     pub(super) footnote_counter: usize,
 }
 
 impl<'a> WordCollector<'a> {
-    pub(super) fn new(fm: &'a FontManager, footnote_counter: usize) -> Self {
+    pub(super) fn new(fm: &'a dyn FontProvider, footnote_counter: usize) -> Self {
         Self { fm, words: Vec::new(), footnotes: Vec::new(), footnote_counter }
     }
 

@@ -6,7 +6,7 @@ mod table_image;
 
 use crate::css::values::*;
 use crate::css::PageStyleSet;
-use crate::font::FontManager;
+use crate::font::FontProvider;
 use crate::style::ComputedStyle;
 
 use state::LayoutState;
@@ -169,7 +169,7 @@ struct StyledWord {
 //  Main layout entry point
 // ═══════════════════════════════════════════════════════════════
 
-pub fn lay_out(page_styles: &PageStyleSet, tree: &crate::style::StyledNode, fm: &FontManager) -> (Vec<Page>, Vec<LoadedImage>) {
+pub fn lay_out(page_styles: &PageStyleSet, tree: &crate::style::StyledNode, fm: &dyn FontProvider) -> (Vec<Page>, Vec<LoadedImage>) {
     let mut state = LayoutState::new(page_styles.clone(), fm);
     blocks::lay_out_node(tree, &mut state, true);
     state.flush_footnotes();

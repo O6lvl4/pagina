@@ -5,6 +5,19 @@ use printpdf::{BuiltinFont, FontId, PdfDocument, PdfFontHandle};
 use crate::css::values::{FontStyle, FontWeight};
 
 // ═══════════════════════════════════════════════════════════════
+//  Font provider trait (DI boundary)
+// ═══════════════════════════════════════════════════════════════
+
+/// Trait for font measurement. Implement this to swap font backends in tests.
+pub trait FontProvider {
+    fn resolve(&self, family: &str, weight: FontWeight, style: FontStyle) -> ResolvedFont;
+    fn resolve_default(&self, weight: FontWeight, style: FontStyle) -> ResolvedFont;
+    fn metrics(&self, font: &ResolvedFont) -> &FontMetrics;
+    fn measure_text(&self, text: &str, family: &str, weight: FontWeight, style: FontStyle, size_pt: f64) -> f64;
+    fn pdf_handle(&self, font: &ResolvedFont) -> PdfFontHandle;
+}
+
+// ═══════════════════════════════════════════════════════════════
 //  Font metrics
 // ═══════════════════════════════════════════════════════════════
 
@@ -265,6 +278,71 @@ impl FontManager {
         for ext in &mut self.external_fonts {
             cache_chars_for_text(&mut ext.metrics, &ext.font_bytes, 0, text);
         }
+    }
+}
+
+impl FontProvider for FontManager {
+    fn resolve(&self, family: &str, weight: FontWeight, style: FontStyle) -> ResolvedFont {
+        self.resolve(family, weight, style)
+    }
+    fn resolve_default(&self, weight: FontWeight, style: FontStyle) -> ResolvedFont {
+        self.resolve_default(weight, style)
+    }
+    fn metrics(&self, font: &ResolvedFont) -> &FontMetrics {
+        self.metrics(font)
+    }
+    fn measure_text(&self, text: &str, family: &str, weight: FontWeight, style: FontStyle, size_pt: f64) -> f64 {
+        self.measure_text(text, family, weight, style, size_pt)
+    }
+    fn pdf_handle(&self, font: &ResolvedFont) -> PdfFontHandle {
+        self.pdf_handle(font)
+    }
+}
+
+/// Mock font provider for testing. Fixed-width characters.
+pub struct MockFontProvider {
+    pub char_width_units: u16,
+    pub units_per_em: u16,
+    metrics: FontMetrics,
+}
+
+impl MockFontProvider {
+    /// Create a mock where every character has the same width.
+    pub fn new(char_width_units: u16, units_per_em: u16) -> Self {
+        let mut widths = HashMap::new();
+        // Pre-fill ASCII range
+        for c in ' '..='~' {
+            widths.insert(c, char_width_units);
+        }
+        Self {
+            char_width_units,
+            units_per_em,
+            metrics: FontMetrics {
+                char_widths: widths,
+                units_per_em,
+                ascender: (units_per_em as i16 * 8) / 10,
+                descender: -((units_per_em as i16 * 2) / 10),
+                default_width: char_width_units,
+            },
+        }
+    }
+}
+
+impl FontProvider for MockFontProvider {
+    fn resolve(&self, _family: &str, weight: FontWeight, style: FontStyle) -> ResolvedFont {
+        ResolvedFont::Builtin(resolve_builtin(weight, style, "Helvetica"))
+    }
+    fn resolve_default(&self, weight: FontWeight, style: FontStyle) -> ResolvedFont {
+        self.resolve("Helvetica", weight, style)
+    }
+    fn metrics(&self, _font: &ResolvedFont) -> &FontMetrics {
+        &self.metrics
+    }
+    fn measure_text(&self, text: &str, _family: &str, _weight: FontWeight, _style: FontStyle, size_pt: f64) -> f64 {
+        self.metrics.text_width_mm(text, size_pt)
+    }
+    fn pdf_handle(&self, _font: &ResolvedFont) -> PdfFontHandle {
+        PdfFontHandle::Builtin(BuiltinFont::Helvetica)
     }
 }
 
