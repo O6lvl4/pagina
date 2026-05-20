@@ -1,0 +1,50 @@
+[document]
+title = "Software Development Outsourcing Agreement"
+date = "May 20, 2026"
+
+[parties.Client]
+name = "Example Corp."
+address = "1-2-3 Shibuya, Shibuya-ku, Tokyo"
+representative = "CEO Ichiro Sato"
+
+[parties.Contractor]
+name = "Taro Yamada"
+address = "4-5-6 Shinjuku, Shinjuku-ku, Tokyo"
+
+[[clauses]]
+title = "Purpose"
+template = "purpose"
+[clauses.params]
+
+[[clauses]]
+title = "Contract Period"
+template = "period"
+[clauses.params]
+
+[[clauses]]
+title = "Payment"
+template = "payment"
+[clauses.params]
+
+[[clauses]]
+title = "Confidentiality"
+template = "confidentiality"
+
+[[clauses]]
+title = "Intellectual Property"
+template = "ip-rights"
+
+[[clauses]]
+title = "Termination"
+template = "termination"
+
+[[clauses]]
+title = "Damages"
+template = "damages"
+
+[[clauses]]
+title = "Governing Law"
+template = "governing-law"
+
+[signature]
+style = "seal"

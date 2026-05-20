@@ -22,3 +22,5 @@ resvg = "0.47"
 boa_engine = "0.21"
 boa_gc = "0.21"
 clap = { version = "4", features = ["derive"] }
+toml = "0.8"
+serde = { version = "1", features = ["derive"] }
