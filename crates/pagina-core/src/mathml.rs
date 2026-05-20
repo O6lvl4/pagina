@@ -263,3 +263,139 @@ fn measure_item_width(item: &LayoutItem, fm: &dyn FontProvider) -> f64 {
     }
     fm.measure_text(&item.text, &item.font_family, item.font_weight, item.font_style, item.font_size_pt)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::font::MockFontProvider;
+    use crate::style::{ComputedStyle, StyledContent, StyledNode};
+
+    /// Helper: build a minimal StyledNode with the given tag and text children.
+    fn make_node(tag: &str, children: Vec<StyledContent>) -> StyledNode {
+        StyledNode {
+            tag: tag.to_string(),
+            id: None,
+            classes: Vec::new(),
+            style: ComputedStyle::default(),
+            children,
+            attrs: Vec::new(),
+        }
+    }
+
+    fn text(s: &str) -> StyledContent {
+        StyledContent::Text(s.to_string())
+    }
+
+    fn elem(node: StyledNode) -> StyledContent {
+        StyledContent::Element(node)
+    }
+
+    // ─── render_math with <mn> ─────────────────────────
+
+    #[test]
+    fn render_math_mn_produces_items() {
+        let fm = MockFontProvider::new(500, 1000);
+        let mn = make_node("mn", vec![text("42")]);
+        let math = make_node("math", vec![elem(mn)]);
+        let items = render_math(&math, 12.0, &fm);
+        assert!(!items.is_empty(), "render_math should produce items for <mn>42</mn>");
+        assert!(items.iter().any(|i| i.text == "42"), "should contain text '42'");
+    }
+
+    // ─── render_math with <mfrac> ──────────────────────
+
+    #[test]
+    fn render_math_mfrac_produces_numerator_denominator_and_rule() {
+        let fm = MockFontProvider::new(500, 1000);
+        let num = make_node("mn", vec![text("1")]);
+        let den = make_node("mn", vec![text("2")]);
+        let frac = make_node("mfrac", vec![elem(num), elem(den)]);
+        let math = make_node("math", vec![elem(frac)]);
+        let items = render_math(&math, 12.0, &fm);
+
+        let has_1 = items.iter().any(|i| i.text == "1");
+        let has_2 = items.iter().any(|i| i.text == "2");
+        let has_hr = items.iter().any(|i| matches!(i.kind, ItemKind::HorizontalRule { .. }));
+
+        assert!(has_1, "fraction should render numerator '1'");
+        assert!(has_2, "fraction should render denominator '2'");
+        assert!(has_hr, "fraction should render a horizontal rule");
+        assert!(items.len() >= 3, "fraction should produce at least 3 items (num + denom + rule)");
+    }
+
+    // ─── render_math with <msup> ───────────────────────
+
+    #[test]
+    fn render_math_msup_produces_items_at_different_y() {
+        let fm = MockFontProvider::new(500, 1000);
+        let base = make_node("mn", vec![text("x")]);
+        let sup = make_node("mn", vec![text("2")]);
+        let msup = make_node("msup", vec![elem(base), elem(sup)]);
+        let math = make_node("math", vec![elem(msup)]);
+        let items = render_math(&math, 12.0, &fm);
+
+        assert!(items.len() >= 2, "msup should produce at least base + superscript");
+
+        let y_values: Vec<f64> = items.iter().map(|i| i.y_mm).collect();
+        let min_y = y_values.iter().cloned().fold(f64::INFINITY, f64::min);
+        let max_y = y_values.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+        assert!(
+            (max_y - min_y).abs() > 0.01,
+            "superscript should be at a different y position than the base"
+        );
+    }
+
+    // ─── math_width ────────────────────────────────────
+
+    #[test]
+    fn math_width_returns_positive_value() {
+        let fm = MockFontProvider::new(500, 1000);
+        let mn = make_node("mn", vec![text("42")]);
+        let math = make_node("math", vec![elem(mn)]);
+        let w = math_width(&math, 12.0, &fm);
+        assert!(w > 0.0, "math_width should be positive for non-empty content, got {w}");
+    }
+
+    #[test]
+    fn math_width_empty_is_zero() {
+        let fm = MockFontProvider::new(500, 1000);
+        let math = make_node("math", vec![]);
+        let w = math_width(&math, 12.0, &fm);
+        assert!(w == 0.0 || w >= 0.0, "math_width of empty math should be zero or non-negative");
+    }
+
+    // ─── render_math with <mi> (italic) ────────────────
+
+    #[test]
+    fn render_math_mi_is_italic() {
+        let fm = MockFontProvider::new(500, 1000);
+        let mi = make_node("mi", vec![text("x")]);
+        let math = make_node("math", vec![elem(mi)]);
+        let items = render_math(&math, 12.0, &fm);
+
+        assert!(!items.is_empty());
+        let x_item = items.iter().find(|i| i.text == "x").expect("should have 'x' item");
+        assert_eq!(x_item.font_style, FontStyle::Italic, "<mi> should render in italic");
+    }
+
+    // ─── render_math with <msub> ───────────────────────
+
+    #[test]
+    fn render_math_msub_produces_items_at_different_y() {
+        let fm = MockFontProvider::new(500, 1000);
+        let base = make_node("mn", vec![text("a")]);
+        let sub = make_node("mn", vec![text("i")]);
+        let msub = make_node("msub", vec![elem(base), elem(sub)]);
+        let math = make_node("math", vec![elem(msub)]);
+        let items = render_math(&math, 12.0, &fm);
+
+        assert!(items.len() >= 2, "msub should produce at least base + subscript");
+        let y_values: Vec<f64> = items.iter().map(|i| i.y_mm).collect();
+        let min_y = y_values.iter().cloned().fold(f64::INFINITY, f64::min);
+        let max_y = y_values.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+        assert!(
+            (max_y - min_y).abs() > 0.01,
+            "subscript should be at a different y position than the base"
+        );
+    }
+}

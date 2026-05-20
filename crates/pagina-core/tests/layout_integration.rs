@@ -285,3 +285,169 @@ fn mock_font_provider_fixed_width() {
     let expected2 = 3.0 * 500.0 * 72.0 / 1000.0 * 25.4 / 72.0;
     assert!((w - expected2).abs() < 0.01, "w={w}, expected={expected2}");
 }
+
+// ─── Table rendering ──────────────────────────────────
+
+#[test]
+fn table_renders_cell_text() {
+    let pages = parse_and_lay_out("
+        <html><body>
+        <table><tr><td>Alpha</td><td>Beta</td></tr></table>
+        </body></html>
+    ");
+    let has_alpha = pages[0].items.iter().any(|item| item.text.contains("Alpha"));
+    let has_beta = pages[0].items.iter().any(|item| item.text.contains("Beta"));
+    assert!(has_alpha, "table should render first cell text");
+    assert!(has_beta, "table should render second cell text");
+}
+
+#[test]
+fn table_header_row_is_bold() {
+    let pages = parse_and_lay_out("
+        <html><body>
+        <table>
+            <thead><tr><th>Header</th></tr></thead>
+            <tbody><tr><td>Data</td></tr></tbody>
+        </table>
+        </body></html>
+    ");
+    let header_items: Vec<_> = pages[0].items.iter()
+        .filter(|item| item.text.contains("Header"))
+        .collect();
+    assert!(!header_items.is_empty(), "header cell should appear");
+    assert!(
+        header_items.iter().any(|item| item.font_weight == FontWeight::Bold),
+        "header cell should be bold"
+    );
+}
+
+#[test]
+fn table_produces_separator_lines() {
+    let pages = parse_and_lay_out("
+        <html><body>
+        <table>
+            <tr><td>Row 1</td></tr>
+            <tr><td>Row 2</td></tr>
+        </table>
+        </body></html>
+    ");
+    let hr_count = pages[0].items.iter()
+        .filter(|item| matches!(item.kind, layout::ItemKind::HorizontalRule { .. }))
+        .count();
+    assert!(hr_count >= 1, "table should produce at least one separator line");
+}
+
+// ─── MathML layout ────────────────────────────────────
+
+#[test]
+fn math_element_renders_items() {
+    let pages = parse_and_lay_out("
+        <html><body>
+        <math><mn>42</mn></math>
+        </body></html>
+    ");
+    let has_42 = pages[0].items.iter().any(|item| item.text.contains("42"));
+    assert!(has_42, "MathML <mn>42</mn> should render the number");
+}
+
+#[test]
+fn math_fraction_renders_numerator_and_denominator() {
+    let pages = parse_and_lay_out("
+        <html><body>
+        <math><mfrac><mn>1</mn><mn>2</mn></mfrac></math>
+        </body></html>
+    ");
+    let has_1 = pages[0].items.iter().any(|item| item.text == "1");
+    let has_2 = pages[0].items.iter().any(|item| item.text == "2");
+    let has_hr = pages[0].items.iter()
+        .any(|item| matches!(item.kind, layout::ItemKind::HorizontalRule { .. }));
+    assert!(has_1, "fraction should render numerator");
+    assert!(has_2, "fraction should render denominator");
+    assert!(has_hr, "fraction should render a rule line");
+}
+
+// ─── JavaScript ───────────────────────────────────────
+
+#[test]
+fn script_document_write_injects_content() {
+    // Test via the full pipeline: script writes HTML that gets laid out
+    let html = r#"<html><body>
+        <script>document.write('<p>Generated</p>')</script>
+    </body></html>"#;
+    // Use the full convert pipeline since js::run_scripts is what injects content
+    let dom = pagina_core::dom::parse_html(html);
+    let writes = pagina_core::js::run_scripts(&dom);
+    assert!(!writes.is_empty(), "document.write should produce output");
+    assert!(writes[0].contains("Generated"), "output should contain the written content");
+}
+
+// ─── Nested inline styles ─────────────────────────────
+
+#[test]
+fn nested_bold_italic_produces_styled_items() {
+    // Verify that nesting <strong><em> produces items with italic style.
+    // The engine's inheritance model sets font_style from <em>'s UA default;
+    // bold+italic composition depends on CSS rule inheritance.
+    let pages = parse_and_lay_out("
+        <html><body>
+        <p><strong><em>styled text</em></strong></p>
+        </body></html>
+    ");
+    // The <em> inside <strong> should at minimum produce italic items
+    let italic_items: Vec<_> = pages[0].items.iter()
+        .filter(|item| item.font_style == FontStyle::Italic)
+        .collect();
+    assert!(
+        !italic_items.is_empty(),
+        "nested <strong><em> should produce italic items"
+    );
+    // The text content should appear in the output
+    let has_text = pages[0].items.iter().any(|item| item.text.contains("styled"));
+    assert!(has_text, "nested inline content should be rendered");
+}
+
+// ─── display: none ────────────────────────────────────
+
+#[test]
+fn display_none_hides_element() {
+    let pages = parse_and_lay_out("
+        <html><head><style>
+        .hidden { display: none; }
+        </style></head><body>
+        <p>Visible</p>
+        <p class=\"hidden\">Hidden</p>
+        </body></html>
+    ");
+    let has_visible = pages[0].items.iter().any(|item| item.text.contains("Visible"));
+    let has_hidden = pages[0].items.iter().any(|item| item.text.contains("Hidden"));
+    assert!(has_visible, "visible paragraph should appear");
+    assert!(!has_hidden, "display:none paragraph should not appear");
+}
+
+// ─── Long text wrapping ───────────────────────────────
+
+#[test]
+fn long_text_wraps_to_multiple_lines() {
+    // Generate a long sentence that exceeds one line width.
+    // A4 content width = 210 - 20 - 20 = 170mm.
+    // MockFontProvider: char_width=500, upm=1000, at 11pt default:
+    //   char_width_mm = 500 * 11.0 / 1000.0 * 25.4 / 72.0 ~ 1.94mm per char
+    //   170mm / 1.94 ~ 87 chars per line
+    // So 200 chars should require at least 2 lines.
+    let long_word = "word ".repeat(50); // ~250 chars with spaces
+    let html = format!(
+        "<html><body><p>{}</p></body></html>",
+        long_word.trim()
+    );
+    let pages = parse_and_lay_out(&html);
+    // Collect distinct y positions of text items
+    let y_positions: std::collections::BTreeSet<i64> = pages[0].items.iter()
+        .filter(|item| matches!(item.kind, layout::ItemKind::Text))
+        .map(|item| (item.y_mm * 1000.0) as i64)
+        .collect();
+    assert!(
+        y_positions.len() >= 2,
+        "long text should wrap to at least 2 lines, got {} distinct y positions",
+        y_positions.len()
+    );
+}

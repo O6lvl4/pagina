@@ -173,3 +173,87 @@ pub fn run_scripts(dom: &RcDom) -> Vec<String> {
 
     extract_document_writes(&mut context)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::dom::parse_html;
+
+    #[test]
+    fn empty_dom_returns_empty_writes() {
+        let dom = parse_html("<html><body></body></html>");
+        let writes = run_scripts(&dom);
+        assert!(writes.is_empty(), "no scripts should produce no writes");
+    }
+
+    #[test]
+    fn no_script_tag_returns_empty() {
+        let dom = parse_html("<html><body><p>Hello</p></body></html>");
+        let writes = run_scripts(&dom);
+        assert!(writes.is_empty());
+    }
+
+    #[test]
+    fn document_write_returns_written_text() {
+        let dom = parse_html(r#"<html><body><script>document.write('hello')</script></body></html>"#);
+        let writes = run_scripts(&dom);
+        assert_eq!(writes, vec!["hello"]);
+    }
+
+    #[test]
+    fn multiple_scripts_concatenate() {
+        let dom = parse_html(r#"<html><body>
+            <script>document.write('aaa')</script>
+            <script>document.write('bbb')</script>
+        </body></html>"#);
+        let writes = run_scripts(&dom);
+        assert_eq!(writes.len(), 2);
+        assert_eq!(writes[0], "aaa");
+        assert_eq!(writes[1], "bbb");
+    }
+
+    #[test]
+    fn document_write_with_html_tags() {
+        let dom = parse_html(r#"<html><body><script>document.write('<p>Generated</p>')</script></body></html>"#);
+        let writes = run_scripts(&dom);
+        assert_eq!(writes.len(), 1);
+        assert!(writes[0].contains("<p>Generated</p>"));
+    }
+
+    #[test]
+    fn empty_script_tag_returns_empty() {
+        let dom = parse_html("<html><body><script></script></body></html>");
+        let writes = run_scripts(&dom);
+        assert!(writes.is_empty(), "empty script should produce no writes");
+    }
+
+    #[test]
+    fn script_without_document_write_returns_empty() {
+        let dom = parse_html(r#"<html><body><script>var x = 42;</script></body></html>"#);
+        let writes = run_scripts(&dom);
+        assert!(writes.is_empty(), "script with no document.write should produce no output");
+    }
+
+    #[test]
+    fn parse_json_string_array_empty() {
+        assert!(parse_json_string_array("[]").is_empty());
+    }
+
+    #[test]
+    fn parse_json_string_array_single() {
+        let result = parse_json_string_array(r#"["hello"]"#);
+        assert_eq!(result, vec!["hello"]);
+    }
+
+    #[test]
+    fn parse_json_string_array_multiple() {
+        let result = parse_json_string_array(r#"["a","b","c"]"#);
+        assert_eq!(result, vec!["a", "b", "c"]);
+    }
+
+    #[test]
+    fn parse_json_string_array_invalid_input() {
+        assert!(parse_json_string_array("not json").is_empty());
+        assert!(parse_json_string_array("").is_empty());
+    }
+}
